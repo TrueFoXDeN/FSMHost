@@ -20,7 +20,7 @@ namespace FsmHost
         private static void SetupServer()
         {
             Console.WriteLine("Setting up server...");
-            _serverSocket.Bind(new IPEndPoint(IPAddress.Any, 100));
+            _serverSocket.Bind(new IPEndPoint(IPAddress.Any, 13000));
             _serverSocket.Listen(25);
             _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
         }
@@ -32,7 +32,6 @@ namespace FsmHost
             Console.WriteLine("Client connected");
             socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
             _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
-
         }
 
         private static void ReceiveCallback(IAsyncResult AR)
@@ -52,9 +51,8 @@ namespace FsmHost
                 response = DateTime.Now.ToLongTimeString();
             }
 
-
             byte[] data = Encoding.ASCII.GetBytes(response);
-            socket.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendCallback), null);
+            socket.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendCallback), socket);
             socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
         }
 

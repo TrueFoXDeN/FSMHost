@@ -1,0 +1,12 @@
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\FsmHost.exe
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\FsmHost.deps.json
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\FsmHost.runtimeconfig.json
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\FsmHost.runtimeconfig.dev.json
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\FsmHost.dll
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\FsmHost.pdb
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.AssemblyInfoInputs.cache
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.AssemblyInfo.cs
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.csproj.CoreCompileInputs.cache
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.dll
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.pdb
+C:\Users\Ctroi\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.genruntimeconfig.cache

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
@@ -13,7 +14,7 @@ namespace FsmHost
         private static Socket _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private static List<Socket> _clientSockets = new List<Socket>();
         static Manager manager;
-         static void Main(string[] args)
+        static void Main(string[] args)
         {
             manager = new Manager();
             SetupServer();
@@ -90,23 +91,47 @@ namespace FsmHost
         {
             Socket socket = _serverSocket.EndAccept(AR);
             _clientSockets.Add(socket);
-            Console.WriteLine("Incomming connection...");
             socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
             _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
         }
 
         private static void ReceiveCallback(IAsyncResult AR)
         {
+            //Console.WriteLine("Received Something...");
             Socket socket = (Socket)AR.AsyncState;
-            int received = socket.EndReceive(AR);
-            byte[] dataBuf = new byte[received];
-            Array.Copy(_buffer, dataBuf, received);
+            int received;
+            string receivedText = "";
+            try
+            {
+                received = socket.EndReceive(AR);
+                byte[] dataBuf = new byte[received];
+                Array.Copy(_buffer, dataBuf, received);
+                receivedText = Encoding.ASCII.GetString(dataBuf);
 
-            string receivedText = Encoding.ASCII.GetString(dataBuf);
+            }
+            catch (SocketException sockEx)
+            {
+                Disconnect(socket);
+                return;
+            }
 
-            manager.processReceivedData(receivedText);
-            manager.processReceivedData(receivedText);
-            socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
+            if (receivedText != "")
+            {
+                manager.processReceivedData(receivedText);
+                sendString("Du bist connected", socket);
+
+            }
+            else
+            {
+                Disconnect(socket);
+            }
+
+            if (socket.Connected)
+            {
+                socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
+
+            }
+
 
             //string response = string.Empty;
 
@@ -129,7 +154,7 @@ namespace FsmHost
         }
 
 
-        public void sendString(string dataToSend, Socket s)
+        public static void sendString(string dataToSend, Socket s)
         {
             byte[] data = Encoding.ASCII.GetBytes(dataToSend);
             s.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendCallback), s);
@@ -140,6 +165,54 @@ namespace FsmHost
         {
             Socket socket = (Socket)AR.AsyncState;
             socket.EndSend(AR);
+
+        }
+
+        private static void Disconnect(Socket socket)
+        {
+
+            if (socket.Connected)
+            {
+                try
+                {
+                    socket.Disconnect(true);
+                }catch(SocketException ex)
+                {
+
+                }
+                
+
+                int index = _clientSockets.IndexOf(socket);
+                string username = manager.usernames[index];
+                manager.usernames.RemoveAt(index);
+                _clientSockets.Remove(socket);
+                Console.WriteLine(manager.currentTimeStamp() + " " + username + " disconnected...");
+                Console.WriteLine("Connected Clients: " + _clientSockets.Count);
+                return;
+            }
+            else
+            {
+                int index = _clientSockets.IndexOf(socket);
+                string username = manager.usernames[index];
+                manager.usernames.RemoveAt(index);
+                _clientSockets.Remove(socket);
+                Console.WriteLine(username + " disconnected...");
+                Console.WriteLine("Connected Clients: " + _clientSockets.Count);
+                return;
+            }
+        }
+
+
+
+        private static void DisconnectCallback(IAsyncResult result)
+        {
+            Socket socket = (Socket)result.AsyncState;
+
+            //socket.EndDisconnect(result);
+            //socket.Close();
+            Console.WriteLine("Client disconnected");
+            Console.WriteLine("Connected Clients: " + _clientSockets.Count);
+            //_serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), socket);
 
         }
     }

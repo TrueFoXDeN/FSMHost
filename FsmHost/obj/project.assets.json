@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ctroi\\source\\repos\\FsmHost\\FsmHost\\FsmHost.csproj",
+      "projectUniqueName": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\FsmHost.csproj",
       "projectName": "FsmHost",
-      "projectPath": "C:\\Users\\Ctroi\\source\\repos\\FsmHost\\FsmHost\\FsmHost.csproj",
+      "projectPath": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\FsmHost.csproj",
       "packagesPath": "C:\\Users\\Ctroi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ctroi\\source\\repos\\FsmHost\\FsmHost\\obj\\",
+      "outputPath": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ctroi\\AppData\\Roaming\\NuGet\\NuGet.Config",

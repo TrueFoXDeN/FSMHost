@@ -14,12 +14,14 @@ namespace FsmHost
         private static Socket _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private static List<Socket> _clientSockets = new List<Socket>();
         static Manager manager;
+        public static bool isFirstConnection = true;
         static void Main(string[] args)
         {
             manager = new Manager();
             SetupServer();
             Console.ReadLine();
         }
+
 
         private static void SetupServer()
         {
@@ -73,8 +75,6 @@ namespace FsmHost
                         Console.WriteLine(ipAddress);
                     }
                 }
-
-
                 Console.WriteLine();
                 Console.WriteLine("Setup finished. Server started at " + DateTime.Now.ToLongTimeString());
                 Console.WriteLine("---------------------------------------------");
@@ -103,54 +103,62 @@ namespace FsmHost
             string receivedText = "";
             try
             {
+                received = 0;
                 received = socket.EndReceive(AR);
                 byte[] dataBuf = new byte[received];
                 Array.Copy(_buffer, dataBuf, received);
+                Array.Clear(_buffer, 0, _buffer.Length);
+                Debug.WriteLine("Bytes received: " + received);
+
+
                 receivedText = Encoding.ASCII.GetString(dataBuf);
+                Debug.WriteLine("Received Text: " + receivedText);
+
+                if (receivedText != "")
+                {
+
+                    Manager.stringBuffer += receivedText;
+                    manager.prepareProcessingReceivedData();
+                    if (isFirstConnection)
+                    {
+                        sendString("getAllData", socket);
+                        isFirstConnection = false;
+                    }
+                }
+                else
+                {
+                    Disconnect(socket);
+                }
+
+
 
             }
             catch (SocketException sockEx)
             {
-                Disconnect(socket);
+                try
+                {
+                    int i = _clientSockets.IndexOf(socket);
+                    Disconnect(socket);
+                }
+                catch (Exception e)
+                {
+
+                }
+
                 return;
             }
 
-            if (receivedText != "")
-            {
-                manager.processReceivedData(receivedText);
-                sendString("Du bist connected", socket);
 
-            }
-            else
-            {
-                Disconnect(socket);
-            }
 
             if (socket.Connected)
             {
+
                 socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
 
             }
 
 
-            //string response = string.Empty;
 
-            //if (text.ToLower() == "get time")
-            //{
-            //    response = DateTime.Now.ToLongTimeString();
-            //}
-
-            //byte[] data = Encoding.ASCII.GetBytes(response);
-
-            //foreach (Socket s in _clientSockets)
-            //{
-            //    if (s != socket)
-            //    {
-            //        s.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendCallback), s);
-
-            //    }
-            //    s.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), s);
-            //}
         }
 
 
@@ -173,47 +181,51 @@ namespace FsmHost
 
             if (socket.Connected)
             {
+                int index = _clientSockets.IndexOf(socket);
+                Debug.WriteLine("Index is: " + index);
+
                 try
                 {
                     socket.Disconnect(true);
-                }catch(SocketException ex)
+                    Debug.WriteLine("Anzahl User:" + manager.usernames.Count);
+                    foreach (string s in manager.usernames)
+                    {
+                        Debug.WriteLine("Usernames in List: " + s);
+                    }
+
+                    Debug.WriteLine(manager.usernames[index]);
+                    string username = manager.usernames[index];
+                    manager.usernames.RemoveAt(index);
+                    _clientSockets.Remove(socket);
+                    Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + username);
+                    Console.WriteLine("Connected Clients: " + _clientSockets.Count);
+                }
+                catch (SocketException ex)
                 {
 
                 }
-                
 
-                int index = _clientSockets.IndexOf(socket);
-                string username = manager.usernames[index];
-                manager.usernames.RemoveAt(index);
-                _clientSockets.Remove(socket);
-                Console.WriteLine(manager.currentTimeStamp() + " " + username + " disconnected...");
-                Console.WriteLine("Connected Clients: " + _clientSockets.Count);
+
                 return;
             }
             else
             {
-                int index = _clientSockets.IndexOf(socket);
-                string username = manager.usernames[index];
-                manager.usernames.RemoveAt(index);
-                _clientSockets.Remove(socket);
-                Console.WriteLine(username + " disconnected...");
-                Console.WriteLine("Connected Clients: " + _clientSockets.Count);
+                try
+                {
+                    int index = _clientSockets.IndexOf(socket);
+                    string username = manager.usernames[index];
+                    manager.usernames.RemoveAt(index);
+                    _clientSockets.Remove(socket);
+                    Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + username);
+                    Console.WriteLine("Connected Clients: " + _clientSockets.Count);
+                }
+                catch (Exception e)
+                {
+
+                }
+
                 return;
             }
-        }
-
-
-
-        private static void DisconnectCallback(IAsyncResult result)
-        {
-            Socket socket = (Socket)result.AsyncState;
-
-            //socket.EndDisconnect(result);
-            //socket.Close();
-            Console.WriteLine("Client disconnected");
-            Console.WriteLine("Connected Clients: " + _clientSockets.Count);
-            //_serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), socket);
-
         }
     }
 }

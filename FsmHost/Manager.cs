@@ -36,9 +36,10 @@ namespace FsmHost
                 stringBuffer = stringBuffer.Remove(0, splittedString[i].Length + 1);
                 Debug.WriteLine(stringBuffer);
                 processReceivedData(splittedString[i]);
-
             }
         }
+
+
 
         public void processReceivedData(string receivedData)
         {

@@ -10,7 +10,7 @@ namespace FsmHost
 {
     class Program
     {
-        private static byte[] _buffer = new byte[1024];
+        private static byte[] _buffer = new byte[8192];
         private static Socket _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private static List<Socket> _clientSockets = new List<Socket>();
         static Manager manager;
@@ -110,7 +110,6 @@ namespace FsmHost
                 Array.Clear(_buffer, 0, _buffer.Length);
                 Debug.WriteLine("Bytes received: " + received);
 
-
                 receivedText = Encoding.ASCII.GetString(dataBuf);
                 Debug.WriteLine("Received Text: " + receivedText);
 
@@ -156,9 +155,6 @@ namespace FsmHost
                 socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
 
             }
-
-
-
         }
 
 
@@ -193,7 +189,7 @@ namespace FsmHost
                         Debug.WriteLine("Usernames in List: " + s);
                     }
 
-                    Debug.WriteLine(manager.usernames[index]);
+                    //Debug.WriteLine(manager.usernames[index]);
                     string username = manager.usernames[index];
                     manager.usernames.RemoveAt(index);
                     _clientSockets.Remove(socket);

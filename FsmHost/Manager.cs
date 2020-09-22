@@ -24,7 +24,7 @@ namespace FsmHost
 
         public void processReceivedData(string receivedData, Message e)
         {
-           
+
 
             string[] splittedString = receivedData.Split('$');
             username = splittedString[0];
@@ -68,7 +68,11 @@ namespace FsmHost
         {
             usernames.Add(data[1]);
             Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
-            sendAllData(e);
+            if (!Program.isFirstConnection)
+            {
+                sendAllData(e);
+            }
+
         }
 
         private void disconnectClient(string[] data)
@@ -81,7 +85,7 @@ namespace FsmHost
         {
             foreach (Column c in columns)
             {
-                e.ReplyLine("ccl$" + c.name + "$" + c.id.ToString());
+                e.ReplyLine("$ccl$" + c.name + "$" + c.id.ToString());
 
                 foreach (string[] s in c.Flightstrips)
                 {
@@ -94,7 +98,7 @@ namespace FsmHost
 
         public void BroadcastMessage(string data)
         {
-            Program.server.BroadcastLine(username+"$"+data);
+            Program.server.BroadcastLine(username + "$" + data);
         }
 
 
@@ -103,12 +107,11 @@ namespace FsmHost
         {
             columns.Add(new Column(data[1], ColumnIdCounter));
             Console.WriteLine(currentTimeStamp() + " Column created: " + data[1]);
-            //if(Int32.Parse(data[2])> ColumnIdCounter)
-            //{
-            //    ColumnIdCounter = Int32.Parse(data[2]);
-            //}
-            e.ReplyLine("eid$c$" + data[2] + "$" + ColumnIdCounter.ToString());
-            ColumnIdCounter++;
+
+            e.ReplyLine("$eid$c$" + data[2] + "$" + ColumnIdCounter.ToString());
+
+            BroadcastMessage(columns[^1].ToString());
+                ColumnIdCounter++;
         }
         private void removeColumn(string[] data)
         {
@@ -144,7 +147,7 @@ namespace FsmHost
             Console.WriteLine(currentTimeStamp() + " Flightstrip created. ID: " + FlightstripIdCounter.ToString() + ", Column: " + c.name + ", Type: " + type);
             FlightstripIdCounter++;
 
-            string toSend="cfs$";
+            string toSend = "cfs$";
             Array.ForEach(data, x => toSend += (x + "$"));
             BroadcastMessage(toSend);
         }
@@ -180,7 +183,7 @@ namespace FsmHost
             return timestamp;
         }
 
-       
+
 
     }
 }

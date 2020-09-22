@@ -94,7 +94,7 @@ namespace FsmHost
             if (isFirstConnection)
             {
                 Console.WriteLine("First connection, fetching Data...");
-                e.ReplyLine("getAllData");
+                e.ReplyLine("$getAllData");
                 isFirstConnection = false;
             }
            

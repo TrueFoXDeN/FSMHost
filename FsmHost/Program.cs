@@ -108,11 +108,11 @@ namespace FsmHost
                 byte[] dataBuf = new byte[received];
                 Array.Copy(_buffer, dataBuf, received);
                 Array.Clear(_buffer, 0, _buffer.Length);
-                Debug.WriteLine("Bytes received: " + received);
+                //Debug.WriteLine("Bytes received: " + received);
 
                 receivedText = Encoding.ASCII.GetString(dataBuf);
-                Debug.WriteLine("Received Text: " + receivedText);
-
+                //Debug.WriteLine("Received Text: " + receivedText);
+                //Array.Clear(_buffer, 0, _buffer.Length);
                 if (receivedText != "")
                 {
 

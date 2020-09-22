@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace FsmHost
             switch (splittedString[0])
             {
                 case "con":
-                    connectClient(splittedString);
+                    connectClient(splittedString, e);
                     break;
                 case "dcn":
                     disconnectClient(splittedString);
@@ -39,7 +40,7 @@ namespace FsmHost
                     removeColumn(splittedString);
                     break;
                 case "cfs":
-                    createFlightstrip(splittedString, e);
+                    createFlightstrip(splittedString.Skip(1).ToArray(), e);
                     break;
                 case "rfs":
                     removeFlightstrip(splittedString);
@@ -58,11 +59,11 @@ namespace FsmHost
         }
 
 
-        private void connectClient(string[] data)
+        private void connectClient(string[] data, Message e)
         {
             usernames.Add(data[1]);
             Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
-          
+            sendAllData(e);
         }
 
         private void disconnectClient(string[] data)
@@ -72,7 +73,7 @@ namespace FsmHost
 
         private void createColumn(string[] data, Message e)
         {
-            columns.Add(new Column(data[1]));
+            columns.Add(new Column(data[1], ColumnIdCounter));
             Console.WriteLine(currentTimeStamp() + " Column created: " + data[1]);
             //if(Int32.Parse(data[2])> ColumnIdCounter)
             //{
@@ -86,11 +87,28 @@ namespace FsmHost
 
         }
 
+        private void sendAllData(Message e)
+        {
+            foreach (Column c in columns)
+            {
+                e.ReplyLine("ccl$" + c.name + "$" + c.id.ToString());
+
+                foreach (string[] s in c.Flightstrips)
+                {
+                    string toSend = "";
+                    Array.ForEach(s, x => toSend += (x + "$"));
+                    e.ReplyLine("cfs$" + toSend);
+                }
+            }
+        }
+
         private void createFlightstrip(string[] data, Message e)
         {
-            Column c = columns[Int32.Parse(data[2])];
+            Column c = columns[Int32.Parse(data[1])];
+            data[0] = FlightstripIdCounter.ToString();
+
             c.Flightstrips.Add(data);
-            string rawtype = data[3];
+            string rawtype = data[2];
             string type = "";
             switch (rawtype)
             {
@@ -109,10 +127,10 @@ namespace FsmHost
             //    FlightstripIdCounter = Int32.Parse(data[1]);
             //}
 
-            e.ReplyLine("eid$f$" + data[1] + "$" + FlightstripIdCounter.ToString());
+            e.ReplyLine("eid$f$" + data[0] + "$" + FlightstripIdCounter.ToString());
             Console.WriteLine(currentTimeStamp() + " Flightstrip created. ID: " + FlightstripIdCounter.ToString() + ", Column: " + c.name + ", Type: " + type);
             FlightstripIdCounter++;
-            
+
         }
 
         private void removeFlightstrip(string[] data)

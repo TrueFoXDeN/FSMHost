@@ -97,6 +97,7 @@ namespace FsmHost
                 e.ReplyLine("getAllData");
                 isFirstConnection = false;
             }
+           
 
             Debug.WriteLine(e.MessageString);
             manager.processReceivedData(e.MessageString, e);

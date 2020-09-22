@@ -19,28 +19,42 @@ namespace FsmHost
 
         public void prepareProcessingReceivedData(Socket socket)
         {
-            Debug.WriteLine("Preparing...");
-            char[] charArray = stringBuffer.ToCharArray();
-
-            int countDelimiter = 0;
-            foreach (char c in charArray)
+            try
             {
-                if (c.Equals('%'))
+                //Debug.WriteLine("Preparing...");
+                stringBuffer = stringBuffer.Trim();
+                char[] charArray = stringBuffer.ToCharArray();
+                //Debug.WriteLine("String Buffer: "+stringBuffer);
+
+                int countDelimiter = 0;
+                foreach (char c in charArray)
                 {
-                    countDelimiter++;
+                    //Debug.Write(c);
+                    if (c.Equals('%'))
+                    {
+                        countDelimiter++;
+                    }
+                }
+                
+                //Debug.WriteLine("Packets found: " + countDelimiter);
+                string[] splittedString = stringBuffer.Split('%');
+                for (int i = 0; i < countDelimiter; i++)
+                {
+                    //Debug.WriteLine("RawMessage: " + splittedString[i]);
+                    stringBuffer = stringBuffer.Remove(0, splittedString[i].Length + 1);
+                    
+                    processReceivedData(splittedString[i]);
                 }
             }
-            Debug.WriteLine("Packets found: " + countDelimiter);
-            string[] splittedString = stringBuffer.Split('%');
-            for (int i = 0; i < countDelimiter; i++)
+            catch
             {
-                Debug.WriteLine("RawMessage: " + splittedString[i]);
-                stringBuffer = stringBuffer.Remove(0, splittedString[i].Length + 1);
-                Debug.WriteLine(stringBuffer);
-                processReceivedData(splittedString[i]);
+                Debug.WriteLine("--------------------------------");
+
+                Debug.WriteLine(new String(stringBuffer));
+                Debug.WriteLine("Length:" + stringBuffer.Length);
             }
 
-            Program.continueReceiving(socket);
+
         }
 
 
@@ -103,7 +117,14 @@ namespace FsmHost
 
         private void createFlightstrip(string[] data)
         {
-            Console.WriteLine("Flightstrip created");
+            Console.WriteLine("");
+            //Console.Write("Flightstrip created: ");
+            foreach(string s in data)
+            {
+                Console.Write(s +";");
+            }
+            Console.WriteLine("");
+
             //columns[Int32.Parse(data[1])].Flightstrips.Add(new string[] { });
         }
 

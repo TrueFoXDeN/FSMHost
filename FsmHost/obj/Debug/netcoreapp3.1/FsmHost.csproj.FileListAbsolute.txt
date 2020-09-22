@@ -24,3 +24,16 @@ F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.dll
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.pdb
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.genruntimeconfig.cache
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Debug\netcoreapp3.1\FsmHost.exe
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Debug\netcoreapp3.1\FsmHost.deps.json
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Debug\netcoreapp3.1\FsmHost.runtimeconfig.json
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Debug\netcoreapp3.1\FsmHost.runtimeconfig.dev.json
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Debug\netcoreapp3.1\FsmHost.dll
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Debug\netcoreapp3.1\FsmHost.pdb
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csprojAssemblyReference.cache
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.AssemblyInfoInputs.cache
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.AssemblyInfo.cs
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csproj.CoreCompileInputs.cache
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.dll
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.pdb
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.genruntimeconfig.cache

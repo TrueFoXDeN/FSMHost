@@ -8,19 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Ctroi\\.nuget\\packages\\": {}
+    "C:\\Users\\Laurenz\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\FsmHost.csproj",
+      "projectUniqueName": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
       "projectName": "FsmHost",
-      "projectPath": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\FsmHost.csproj",
-      "packagesPath": "C:\\Users\\Ctroi\\.nuget\\packages\\",
-      "outputPath": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\obj\\",
+      "projectPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
+      "packagesPath": "C:\\Users\\Laurenz\\.nuget\\packages\\",
+      "outputPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Ctroi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Laurenz\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

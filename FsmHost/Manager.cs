@@ -16,6 +16,7 @@ namespace FsmHost
         public static string stringBuffer;
         public static int FlightstripIdCounter = 0;
         public static int ColumnIdCounter = 0;
+        private string username;
         public Manager()
         {
         }
@@ -23,7 +24,11 @@ namespace FsmHost
 
         public void processReceivedData(string receivedData, Message e)
         {
+           
+
             string[] splittedString = receivedData.Split('$');
+            username = splittedString[0];
+            splittedString = splittedString.Skip(1).ToArray();
 
             switch (splittedString[0])
             {
@@ -71,6 +76,29 @@ namespace FsmHost
 
         }
 
+
+        private void sendAllData(Message e)
+        {
+            foreach (Column c in columns)
+            {
+                e.ReplyLine("ccl$" + c.name + "$" + c.id.ToString());
+
+                foreach (string[] s in c.Flightstrips)
+                {
+                    string toSend = "";
+                    Array.ForEach(s, x => toSend += (x + "$"));
+                    e.ReplyLine("$cfs$" + toSend);
+                }
+            }
+        }
+
+        public void BroadcastMessage(string data)
+        {
+            Program.server.BroadcastLine(username+"$"+data);
+        }
+
+
+
         private void createColumn(string[] data, Message e)
         {
             columns.Add(new Column(data[1], ColumnIdCounter));
@@ -85,21 +113,6 @@ namespace FsmHost
         private void removeColumn(string[] data)
         {
 
-        }
-
-        private void sendAllData(Message e)
-        {
-            foreach (Column c in columns)
-            {
-                e.ReplyLine("ccl$" + c.name + "$" + c.id.ToString());
-
-                foreach (string[] s in c.Flightstrips)
-                {
-                    string toSend = "";
-                    Array.ForEach(s, x => toSend += (x + "$"));
-                    e.ReplyLine("cfs$" + toSend);
-                }
-            }
         }
 
         private void createFlightstrip(string[] data, Message e)
@@ -131,6 +144,9 @@ namespace FsmHost
             Console.WriteLine(currentTimeStamp() + " Flightstrip created. ID: " + FlightstripIdCounter.ToString() + ", Column: " + c.name + ", Type: " + type);
             FlightstripIdCounter++;
 
+            string toSend="cfs$";
+            Array.ForEach(data, x => toSend += (x + "$"));
+            BroadcastMessage(toSend);
         }
 
         private void removeFlightstrip(string[] data)
@@ -163,6 +179,8 @@ namespace FsmHost
             string timestamp = "[" + DateTime.Now.ToLongTimeString() + "]";
             return timestamp;
         }
+
+       
 
     }
 }

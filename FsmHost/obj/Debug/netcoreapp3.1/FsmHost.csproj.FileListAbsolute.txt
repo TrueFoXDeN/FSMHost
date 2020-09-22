@@ -39,3 +39,5 @@ D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.genruntimec
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\bin\Debug\netcoreapp3.1\SimpleTCP.dll
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csproj.CoreCompileInputs.cache
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csproj.CopyComplete
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Debug\netcoreapp3.1\SimpleTCP.dll
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csproj.CopyComplete

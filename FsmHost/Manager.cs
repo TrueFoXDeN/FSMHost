@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FsmHost
 {
@@ -15,7 +17,7 @@ namespace FsmHost
         {
         }
 
-        public void prepareProcessingReceivedData()
+        public void prepareProcessingReceivedData(Socket socket)
         {
             Debug.WriteLine("Preparing...");
             char[] charArray = stringBuffer.ToCharArray();
@@ -37,6 +39,8 @@ namespace FsmHost
                 Debug.WriteLine(stringBuffer);
                 processReceivedData(splittedString[i]);
             }
+
+            Program.continueReceiving(socket);
         }
 
 

@@ -117,7 +117,8 @@ namespace FsmHost
                 {
 
                     Manager.stringBuffer += receivedText;
-                    manager.prepareProcessingReceivedData();
+                   manager.prepareProcessingReceivedData(socket);
+
                     if (isFirstConnection)
                     {
                         sendString("getAllData", socket);
@@ -149,6 +150,11 @@ namespace FsmHost
 
 
 
+            
+        }
+
+        public static void continueReceiving(Socket socket)
+        {
             if (socket.Connected)
             {
 

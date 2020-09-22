@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleTCP;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -10,11 +11,11 @@ namespace FsmHost
 {
     class Program
     {
-        private static byte[] _buffer = new byte[8192];
-        private static Socket _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        private static List<Socket> _clientSockets = new List<Socket>();
+
         static Manager manager;
         public static bool isFirstConnection = true;
+        public static SimpleTcpServer server;
+        public static List<TcpClient> clients = new List<TcpClient>();
         static void Main(string[] args)
         {
             manager = new Manager();
@@ -60,10 +61,11 @@ namespace FsmHost
             Console.WriteLine("Setting up server...");
             try
             {
-                _serverSocket.Bind(new IPEndPoint(IPAddress.Any, port));
-                _serverSocket.Listen(25);
-                _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
-
+                server = new SimpleTcpServer().Start(port);
+                server.Delimiter = 0x25;
+                server.DelimiterDataReceived += dataReceived;
+                server.ClientDisconnected += ClientDisconnected;
+                server.ClientConnected += ClientConnected;
                 Console.WriteLine();
                 Console.WriteLine("Server is reachable under the following IP-addresses:");
                 string hostName = Dns.GetHostName();
@@ -87,147 +89,33 @@ namespace FsmHost
             }
         }
 
-        private static void AcceptCallback(IAsyncResult AR)
+        public static void dataReceived(object sender, Message e)
         {
-            Socket socket = _serverSocket.EndAccept(AR);
-            _clientSockets.Add(socket);
-            socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
-            _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
-        }
-
-        private static void ReceiveCallback(IAsyncResult AR)
-        {
-            //Console.WriteLine("Received Something...");
-            Socket socket = (Socket)AR.AsyncState;
-            int received;
-            string receivedText = "";
-            try
+            if (isFirstConnection)
             {
-                received = 0;
-                received = socket.EndReceive(AR);
-                byte[] dataBuf = new byte[received];
-                Array.Copy(_buffer, dataBuf, received);
-                Array.Clear(_buffer, 0, _buffer.Length);
-                //Debug.WriteLine("Bytes received: " + received);
-
-                receivedText = Encoding.ASCII.GetString(dataBuf);
-                //Debug.WriteLine("Received Text: " + receivedText);
-                //Array.Clear(_buffer, 0, _buffer.Length);
-                if (receivedText != "")
-                {
-
-                    Manager.stringBuffer += receivedText;
-                   manager.prepareProcessingReceivedData(socket);
-
-                    if (isFirstConnection)
-                    {
-                        sendString("getAllData", socket);
-                        isFirstConnection = false;
-                    }
-                }
-                else
-                {
-                    Disconnect(socket);
-                }
-
-
-
-            }
-            catch (SocketException sockEx)
-            {
-                try
-                {
-                    int i = _clientSockets.IndexOf(socket);
-                    Disconnect(socket);
-                }
-                catch (Exception e)
-                {
-
-                }
-
-                return;
+                Console.WriteLine("First connection, fetching Data...");
+                e.ReplyLine("getAllData");
+                isFirstConnection = false;
             }
 
-
-
-            
+            Debug.WriteLine(e.MessageString);
+            manager.processReceivedData(e.MessageString, e);
         }
 
-        public static void continueReceiving(Socket socket)
+        private static void ClientConnected(object sender, TcpClient client)
         {
-            if (socket.Connected)
-            {
-
-                socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
-
-            }
+            clients.Add(client);
         }
 
 
-        public static void sendString(string dataToSend, Socket s)
+        private static void ClientDisconnected(object sender, TcpClient client)
         {
-            byte[] data = Encoding.ASCII.GetBytes(dataToSend);
-            s.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendCallback), s);
-            s.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), s);
+            int index = clients.IndexOf(client);
+            Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
+            manager.usernames.RemoveAt(index);
+            clients.Remove(client);
         }
 
-        private static void SendCallback(IAsyncResult AR)
-        {
-            Socket socket = (Socket)AR.AsyncState;
-            socket.EndSend(AR);
 
-        }
-
-        private static void Disconnect(Socket socket)
-        {
-
-            if (socket.Connected)
-            {
-                int index = _clientSockets.IndexOf(socket);
-                Debug.WriteLine("Index is: " + index);
-
-                try
-                {
-                    socket.Disconnect(true);
-                    Debug.WriteLine("Anzahl User:" + manager.usernames.Count);
-                    foreach (string s in manager.usernames)
-                    {
-                        Debug.WriteLine("Usernames in List: " + s);
-                    }
-
-                    //Debug.WriteLine(manager.usernames[index]);
-                    string username = manager.usernames[index];
-                    manager.usernames.RemoveAt(index);
-                    _clientSockets.Remove(socket);
-                    Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + username);
-                    Console.WriteLine("Connected Clients: " + _clientSockets.Count);
-                }
-                catch (SocketException ex)
-                {
-
-                }
-
-
-                return;
-            }
-            else
-            {
-                try
-                {
-                    int index = _clientSockets.IndexOf(socket);
-                    string username = manager.usernames[index];
-                    manager.usernames.RemoveAt(index);
-                    _clientSockets.Remove(socket);
-                    Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + username);
-                    Console.WriteLine("Connected Clients: " + _clientSockets.Count);
-                }
-                catch (Exception e)
-                {
-
-                }
-
-                return;
-            }
-        }
     }
 }

@@ -1,8 +1,21 @@
 {
   "version": 2,
-  "dgSpecHash": "bZdQSyI+lqcweBybQZMce87x37+1ZCIIBTe0LY00oOyPBsjlBdTx4sJRGWZ198y8ey5gRp08ay0P6nzl2EDwsA==",
+  "dgSpecHash": "BQ9vrXCJ/w7u+SwBKXnVh7W2I43AKtYn9YBRlDMtE0hTfSlMSt2oKHPBTAygRolXU7gHl1cFFDvfRWslV3bUCw==",
   "success": true,
-  "projectFilePath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
-  "expectedPackageFiles": [],
-  "logs": []
+  "projectFilePath": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\FsmHost.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ctroi\\.nuget\\packages\\simpletcp\\1.0.24\\simpletcp.1.0.24.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'SimpleTCP 1.0.24' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "SimpleTCP",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleTCP;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Sockets;
@@ -12,54 +13,14 @@ namespace FsmHost
         public List<string> usernames = new List<string>();
         public List<Column> columns = new List<Column>();
         public static string stringBuffer;
-
+        public static int FlightstripIdCounter = 0;
+        public static int ColumnIdCounter = 0;
         public Manager()
         {
         }
 
-        public void prepareProcessingReceivedData(Socket socket)
-        {
-            try
-            {
-                //Debug.WriteLine("Preparing...");
-                stringBuffer = stringBuffer.Trim();
-                char[] charArray = stringBuffer.ToCharArray();
-                //Debug.WriteLine("String Buffer: "+stringBuffer);
 
-                int countDelimiter = 0;
-                foreach (char c in charArray)
-                {
-                    //Debug.Write(c);
-                    if (c.Equals('%'))
-                    {
-                        countDelimiter++;
-                    }
-                }
-                
-                //Debug.WriteLine("Packets found: " + countDelimiter);
-                string[] splittedString = stringBuffer.Split('%');
-                for (int i = 0; i < countDelimiter; i++)
-                {
-                    //Debug.WriteLine("RawMessage: " + splittedString[i]);
-                    stringBuffer = stringBuffer.Remove(0, splittedString[i].Length + 1);
-                    
-                    processReceivedData(splittedString[i]);
-                }
-            }
-            catch
-            {
-                Debug.WriteLine("--------------------------------");
-
-                Debug.WriteLine(new String(stringBuffer));
-                Debug.WriteLine("Length:" + stringBuffer.Length);
-            }
-
-
-        }
-
-
-
-        public void processReceivedData(string receivedData)
+        public void processReceivedData(string receivedData, Message e)
         {
             string[] splittedString = receivedData.Split('$');
 
@@ -72,13 +33,13 @@ namespace FsmHost
                     disconnectClient(splittedString);
                     break;
                 case "ccl":
-                    createColumn(splittedString);
+                    createColumn(splittedString, e);
                     break;
                 case "rcl":
                     removeColumn(splittedString);
                     break;
                 case "cfs":
-                    createFlightstrip(splittedString);
+                    createFlightstrip(splittedString, e);
                     break;
                 case "rfs":
                     removeFlightstrip(splittedString);
@@ -89,6 +50,10 @@ namespace FsmHost
                 case "mov":
                     moveFlightstrip(splittedString);
                     break;
+
+                case "sic":
+                    setIdCounter(splittedString);
+                    break;
             }
         }
 
@@ -97,7 +62,7 @@ namespace FsmHost
         {
             usernames.Add(data[1]);
             Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
-
+          
         }
 
         private void disconnectClient(string[] data)
@@ -105,27 +70,49 @@ namespace FsmHost
 
         }
 
-        private void createColumn(string[] data)
+        private void createColumn(string[] data, Message e)
         {
             columns.Add(new Column(data[1]));
             Console.WriteLine(currentTimeStamp() + " Column created: " + data[1]);
+            //if(Int32.Parse(data[2])> ColumnIdCounter)
+            //{
+            //    ColumnIdCounter = Int32.Parse(data[2]);
+            //}
+            e.ReplyLine("eid$c$" + data[2] + "$" + ColumnIdCounter.ToString());
+            ColumnIdCounter++;
         }
         private void removeColumn(string[] data)
         {
 
         }
 
-        private void createFlightstrip(string[] data)
+        private void createFlightstrip(string[] data, Message e)
         {
-            Console.WriteLine("");
-            //Console.Write("Flightstrip created: ");
-            foreach(string s in data)
+            Column c = columns[Int32.Parse(data[2])];
+            c.Flightstrips.Add(data);
+            string rawtype = data[3];
+            string type = "";
+            switch (rawtype)
             {
-                Console.Write(s +";");
+                case "I":
+                    type = "Inbound";
+                    break;
+                case "O":
+                    type = "Outbound";
+                    break;
+                case "V":
+                    type = "VFR";
+                    break;
             }
-            Console.WriteLine("");
 
-            //columns[Int32.Parse(data[1])].Flightstrips.Add(new string[] { });
+            //if (Int32.Parse(data[1]) > FlightstripIdCounter){
+            //    FlightstripIdCounter = Int32.Parse(data[1]);
+            //}
+
+            e.ReplyLine("eid$f$" + data[1] + "$" + FlightstripIdCounter.ToString());
+            Console.WriteLine(currentTimeStamp() + " Flightstrip created. ID: " + FlightstripIdCounter.ToString() + ", Column: " + c.name + ", Type: " + type);
+            FlightstripIdCounter++;
+            
         }
 
         private void removeFlightstrip(string[] data)
@@ -140,6 +127,16 @@ namespace FsmHost
 
         private void editFlightstrip(string[] data)
         {
+
+        }
+
+        private void setIdCounter(string[] data)
+        {
+            if (data[1] == "f")
+            {
+
+            }
+
 
         }
 

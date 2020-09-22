@@ -20,7 +20,6 @@ F:\Programmierung\source\repos\FSMHost_1\FsmHost\bin\Debug\netcoreapp3.1\FsmHost
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csprojAssemblyReference.cache
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.AssemblyInfoInputs.cache
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.AssemblyInfo.cs
-F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csproj.CoreCompileInputs.cache
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.dll
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.pdb
 F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.genruntimeconfig.cache
@@ -37,3 +36,6 @@ D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csproj.Core
 D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.dll
 D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.pdb
 D:\Programmierung\C#\FSMHost\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.genruntimeconfig.cache
+F:\Programmierung\source\repos\FSMHost_1\FsmHost\bin\Debug\netcoreapp3.1\SimpleTCP.dll
+F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csproj.CoreCompileInputs.cache
+F:\Programmierung\source\repos\FSMHost_1\FsmHost\obj\Debug\netcoreapp3.1\FsmHost.csproj.CopyComplete

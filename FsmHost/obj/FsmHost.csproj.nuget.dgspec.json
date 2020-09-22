@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj": {}
+    "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\FsmHost.csproj": {}
   },
   "projects": {
-    "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj": {
+    "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\FsmHost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
+        "projectUniqueName": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\FsmHost.csproj",
         "projectName": "FsmHost",
-        "projectPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
-        "packagesPath": "C:\\Users\\Laurenz\\.nuget\\packages\\",
-        "outputPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\obj\\",
+        "projectPath": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\FsmHost.csproj",
+        "packagesPath": "C:\\Users\\Ctroi\\.nuget\\packages\\",
+        "outputPath": "F:\\Programmierung\\source\\repos\\FSMHost_1\\FsmHost\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Laurenz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ctroi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -37,6 +37,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "SimpleTCP": {
+              "target": "Package",
+              "version": "[1.0.24, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

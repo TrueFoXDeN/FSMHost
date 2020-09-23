@@ -42,23 +42,19 @@ namespace FsmHost
                     createColumn(splittedString, e);
                     break;
                 case "rcl":
-                    removeColumn(splittedString);
+                    removeColumn(splittedString.Skip(1).ToArray());
                     break;
                 case "cfs":
                     createFlightstrip(splittedString.Skip(1).ToArray(), e);
                     break;
                 case "rfs":
-                    removeFlightstrip(splittedString);
+                    removeFlightstrip(splittedString.Skip(1).ToArray());
                     break;
                 case "edt":
-                    editFlightstrip(splittedString);
+                    editFlightstrip(splittedString.Skip(1).ToArray());
                     break;
                 case "mov":
-                    moveFlightstrip(splittedString);
-                    break;
-
-                case "sic":
-                    setIdCounter(splittedString);
+                    moveFlightstrip(splittedString.Skip(1).ToArray());
                     break;
             }
         }
@@ -111,71 +107,175 @@ namespace FsmHost
             e.ReplyLine("$eid$c$" + data[2] + "$" + ColumnIdCounter.ToString());
 
             BroadcastMessage(columns[^1].ToString());
-                ColumnIdCounter++;
+            ColumnIdCounter++;
         }
         private void removeColumn(string[] data)
         {
+            int delete = -1;
+            for (int i = 0; i < columns.Count; i++)
+            {
+                if (Int32.Parse(data[0]) == columns[i].id)
+                {
+                    delete = i;
+                }
+            }
+            if (delete >= 0)
+            {
+                Console.WriteLine(currentTimeStamp() + $" Column {columns[delete]} removed");
+                columns.RemoveAt(delete);
+                BroadcastMessage($"rcl${data[0]}");
+            }
 
         }
 
         private void createFlightstrip(string[] data, Message e)
         {
-            Column c = columns[Int32.Parse(data[1])];
-            data[0] = FlightstripIdCounter.ToString();
+            Column c = null;
 
-            c.Flightstrips.Add(data);
-            string rawtype = data[2];
-            string type = "";
-            switch (rawtype)
+            foreach (Column col in columns)
             {
-                case "I":
-                    type = "Inbound";
-                    break;
-                case "O":
-                    type = "Outbound";
-                    break;
-                case "V":
-                    type = "VFR";
-                    break;
+                if (col.id == Int32.Parse(data[1]))
+                {
+                    c = col;
+                }
+            }
+            if (c != null)
+            {
+                string originalID = data[0];
+                data[0] = FlightstripIdCounter.ToString();
+
+                c.Flightstrips.Add(data);
+                string rawtype = data[2];
+                string type = "";
+                switch (rawtype)
+                {
+                    case "I":
+                        type = "Inbound";
+                        break;
+                    case "O":
+                        type = "Outbound";
+                        break;
+                    case "V":
+                        type = "VFR";
+                        break;
+                }
+
+                e.ReplyLine("$eid$f$" + originalID + "$" + FlightstripIdCounter.ToString());
+                Console.WriteLine(currentTimeStamp() + " Flightstrip created. ID: " + FlightstripIdCounter.ToString() + ", Column: " + c.name + ", Type: " + type);
+                FlightstripIdCounter++;
+
+                string toSend = "cfs$";
+                Array.ForEach(data, x => toSend += (x + "$"));
+                BroadcastMessage(toSend);
             }
 
-            //if (Int32.Parse(data[1]) > FlightstripIdCounter){
-            //    FlightstripIdCounter = Int32.Parse(data[1]);
-            //}
 
-            e.ReplyLine("eid$f$" + data[0] + "$" + FlightstripIdCounter.ToString());
-            Console.WriteLine(currentTimeStamp() + " Flightstrip created. ID: " + FlightstripIdCounter.ToString() + ", Column: " + c.name + ", Type: " + type);
-            FlightstripIdCounter++;
-
-            string toSend = "cfs$";
-            Array.ForEach(data, x => toSend += (x + "$"));
-            BroadcastMessage(toSend);
         }
 
         private void removeFlightstrip(string[] data)
         {
+            Column col = null;
+            string[] flightstrip = null;
+
+            foreach (Column c in columns)
+            {
+                if (c.id == Int32.Parse(data[1]))
+                {
+                    foreach (string[] s in c.Flightstrips)
+                    {
+                        if (s[0] == data[0])
+                        {
+                            Console.WriteLine(currentTimeStamp() + $" Flightstrip removed. ID: {s[0]}");
+
+                            col = c;
+                            flightstrip = s;
+
+                        }
+                    }
+                }
+            }
+            if (col != null && flightstrip != null)
+            {
+                col.Flightstrips.Remove(flightstrip);
+                BroadcastMessage($"rfs${data[0]}${data[1]}");
+            }
 
         }
 
         private void moveFlightstrip(string[] data)
         {
+            //fsID;start;dest
+
+            int start = -1, dest = -1, fsId = -1;
+            for (int i = 0; i < columns.Count; i++)
+            {
+                if (columns[i].id == Int32.Parse(data[1]))
+                {
+
+                    start = i;
+
+                    for (int j = 0; j < columns[i].Flightstrips.Count; j++)
+                    {
+                        if (columns[i].Flightstrips[j][0] == data[0])
+                        {
+                            fsId = j;
+                        }
+                    }
+                }
+                if (columns[i].id == Int32.Parse(data[2]))
+                {
+                    dest = i;
+                }
+
+            }
+
+            columns[start].Flightstrips[fsId][1] = columns[dest].id.ToString();
+
+            if (start >= 0 && dest >= 0 && fsId >= 0)
+            {
+                string[] fs = columns[start].Flightstrips[fsId];
+                columns[start].Flightstrips.RemoveAt(fsId);
+                columns[dest].Flightstrips.Add(fs);
+                Console.WriteLine(currentTimeStamp() + $" Flightstrip moved from {columns[start].name} to {columns[dest].name}");
+                BroadcastMessage($"mov${data[0]}${data[1]}${data[2]}");
+            }
+
 
         }
 
         private void editFlightstrip(string[] data)
         {
-
-        }
-
-        private void setIdCounter(string[] data)
-        {
-            if (data[1] == "f")
+            //fsId, colId, textboxIndex, changedText
+            string oldData = "";
+            Boolean hasChanged = false;
+            foreach (Column c in columns)
             {
+                if (c.id == Int32.Parse(data[1]))
+                {
+                    foreach (string[] s in c.Flightstrips)
+                    {
+                        if (s[0] == data[0])
+                        {
+                            if (s[Int32.Parse(data[2]) + 3] != data[3])
+                            {
+                                oldData = s[Int32.Parse(data[2]) + 3];
+                                s[Int32.Parse(data[2]) + 3] = data[3];
+                                hasChanged = true;
+                            }
 
+
+                        }
+                    }
+                }
+            }
+            if (hasChanged)
+            {
+                Console.WriteLine(currentTimeStamp() + $" Flightstrip edited: \"{oldData}\" to \"{data[3]}\"");
+                BroadcastMessage($"edt${data[0]}${data[2]}${data[3]}");
             }
 
-
         }
+
 
         public string currentTimeStamp()
         {

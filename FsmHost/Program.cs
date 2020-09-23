@@ -80,7 +80,10 @@ namespace FsmHost
                 Console.WriteLine();
                 Console.WriteLine("Setup finished. Server started at " + DateTime.Now.ToLongTimeString());
                 Console.WriteLine("---------------------------------------------");
-
+                while (true)
+                {
+                    Console.ReadLine();
+                }
             }
             catch (SocketException e)
             {

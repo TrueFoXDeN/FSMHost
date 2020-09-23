@@ -76,7 +76,6 @@ namespace FsmHost
             }
             usernames.Add(data[1]);
             Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
-          
         }
 
         private void disconnectClient(string[] data)
@@ -111,9 +110,7 @@ namespace FsmHost
         {
             columns.Add(new Column(data[1], ColumnIdCounter));
             Console.WriteLine(currentTimeStamp() + " Column created: " + data[1]);
-
             e.ReplyLine("$eid$c$" + data[2] + "$" + ColumnIdCounter.ToString());
-
             BroadcastMessage(columns[^1].ToString());
             ColumnIdCounter++;
         }
@@ -139,7 +136,6 @@ namespace FsmHost
         private void createFlightstrip(string[] data, Message e)
         {
             Column c = null;
-
             foreach (Column col in columns)
             {
                 if (col.id == Int32.Parse(data[1]))
@@ -213,7 +209,6 @@ namespace FsmHost
         private void moveFlightstrip(string[] data)
         {
             //fsID;start;dest
-
             int start = -1, dest = -1, fsId = -1;
             for (int i = 0; i < columns.Count; i++)
             {

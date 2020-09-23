@@ -62,15 +62,21 @@ namespace FsmHost
 
         private void connectClient(string[] data, Message e)
         {
-            usernames.Add(data[1]);
-            Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
-            if (!Program.isFirstConnection)
+
+            if (Program.isFirstConnection)
+            {
+                Console.WriteLine("First connection, fetching Data...");
+                e.ReplyLine("$gad");
+                Program.isFirstConnection = false;
+            }
+            else
             {
                 e.ReplyLine("$rad");
                 sendAllData(e);
             }
-           
-
+            usernames.Add(data[1]);
+            Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
+          
         }
 
         private void disconnectClient(string[] data)

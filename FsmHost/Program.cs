@@ -94,14 +94,8 @@ namespace FsmHost
 
         public static void dataReceived(object sender, Message e)
         {
-            if (isFirstConnection)
-            {
-                Console.WriteLine("First connection, fetching Data...");
-                e.ReplyLine("$gad");
-                isFirstConnection = false;
-            }
-           
-
+            
+          
             Debug.WriteLine(e.MessageString);
             manager.processReceivedData(e.MessageString, e);
         }

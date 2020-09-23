@@ -66,12 +66,10 @@ namespace FsmHost
             Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
             if (!Program.isFirstConnection)
             {
+                e.ReplyLine("$rad");
                 sendAllData(e);
             }
-            else
-            {
-                e.ReplyLine("$rad");
-            }
+           
 
         }
 

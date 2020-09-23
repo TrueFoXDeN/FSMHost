@@ -68,6 +68,10 @@ namespace FsmHost
             {
                 sendAllData(e);
             }
+            else
+            {
+                e.ReplyLine("$rad");
+            }
 
         }
 

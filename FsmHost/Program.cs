@@ -105,45 +105,31 @@ namespace FsmHost
                         switch (commands[0])
                         {
                             case "help":
-                                Console.WriteLine("kick         Enter kick followed by the username to force a disconnect on the specified user.");
-                                Console.WriteLine("ban          Enter ban followed by the username to permanently ban a specified user.");
-                                Console.WriteLine("banip        Enter ban followed by the username to permanently ban a specified user.\n" +
-                                    "             This option blocks every account from connecting, coming from this ip");
-                                Console.WriteLine("unban        Enter unban followed by the username to unban a specified user.");
-                                Console.WriteLine("unbanip      Enter unbanip followed by the ip adress to unban a specified ip adresss.");
-                                Console.WriteLine("usewhitelist Enter usewhitelist followed by true or false to enable or disable the whitelist.\n" +
-                                    "             If this option is enabled, only usernames in the textfile \"whitelist.txt\" will be allowed to connect.");
+                                Consolemanager.help();
                                 break;
                             case "ban":
-                                
-                                if (commands.Length == 2)
-                                {
-                                    
-                                    Console.WriteLine(Filemanager.blacklist(commands[1], ""));
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Wrong number of arguments");
-                                }
-
+                                Consolemanager.ban(commands);
                                 break;
                             case "banip":
+                                Consolemanager.banip(commands);
                                 break;
                             case "unban":
-                                if (commands.Length == 2)
-                                {
-                                    Console.WriteLine(Filemanager.removeFromBlacklist(commands[1], ""));
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Wrong number of arguments");
-                                }
+                                Consolemanager.unban(commands);
                                 break;
                             case "unbanip":
+                                Consolemanager.unbanip(commands);
                                 break;
-
+                            case "usewl":
+                                Consolemanager.usewl(commands);
+                                break;
+                            case "addtowl":
+                                Consolemanager.addtowl(commands);
+                                break;
+                            case "removefromwl":
+                                Consolemanager.removefromwl(commands);
+                                break;
                             default:
-                                Console.WriteLine("No valid command entered. Type help to list all commands.");
+                                Consolemanager.notvalid();
                                 break;
                         }
                     }

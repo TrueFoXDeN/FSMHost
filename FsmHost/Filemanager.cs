@@ -33,7 +33,73 @@ namespace FsmHost
                     .Where(l => !(user != "" ? l.Contains(user) : ip != "" ? l.Contains(ip) : false)).ToList());
             }
             return $"{user} has been unbanned from the server.";
-                
+
+        }
+
+        public static string toggleWhitelist(Boolean b)
+        {
+            Manager.useWhitelist = b;
+            if (b)
+            {
+                if (!File.Exists("whitelist.txt"))
+                {
+                    File.Create("whitelist.txt").Close();
+
+                }
+
+                return "Whitelist has been enabled";
+            }
+            else
+            {
+                //if (File.Exists("whitelist.txt"))
+                //{
+                //    File.Delete("whitelist.txt");
+                //}
+
+                return "Whitelist has been disabled";
+            }
+
+        }
+        public static string addtowl(string user)
+        {
+            Boolean alreadyAdded = false;
+            var lines = File.ReadAllLines("whitelist.txt");
+            foreach (string s in lines)
+            {
+                alreadyAdded = alreadyAdded == false ? user != "" ? s.Contains(user) : false : false;
+            }
+            if (alreadyAdded)
+            {
+                return $"{user} has already been added to the whitelist.";
+            }
+            File.AppendAllText("whitelist.txt", $"{user}\n");
+            return $"{user} has been added to the whitelist.";
+        }
+
+        public static string removefromwl(string user)
+        {
+            if (File.Exists("whitelist.txt"))
+            {
+                File.WriteAllLines("whitelist.txt", File.ReadLines("whitelist.txt")
+                    .Where(l => !(user != "" ? l.Contains(user) : false)).ToList());
+            }
+            return $"{user} has been removed from the whitelist.";
+        }
+        public static string recoverfrom(string user)
+        {
+            return $"Data cleared and recovered from {user}.";
+        }
+        public static string reset()
+        {
+            return "Data cleared.";
+        }
+        public static string kick(string user)
+        {
+            return $"{user} has been kicked from the server.";
+        }
+        public static string kickall()
+        {
+            return $"Every user has been kicked from the server.";
         }
 
     }

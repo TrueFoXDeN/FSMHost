@@ -17,6 +17,7 @@ namespace FsmHost
         public static int FlightstripIdCounter = 0;
         public static int ColumnIdCounter = 0;
         private string username;
+        public static Boolean useWhitelist = false;
         public Manager()
         {
         }

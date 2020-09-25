@@ -107,6 +107,12 @@ namespace FsmHost
                             case "help":
                                 Consolemanager.help();
                                 break;
+                            case "kick":
+                                Consolemanager.kick(commands);
+                                break;
+                            case "kickall":
+                                Consolemanager.kickall();
+                                break;
                             case "ban":
                                 Consolemanager.ban(commands);
                                 break;
@@ -116,9 +122,6 @@ namespace FsmHost
                             case "unban":
                                 Consolemanager.unban(commands);
                                 break;
-                            case "unbanip":
-                                Consolemanager.unbanip(commands);
-                                break;
                             case "usewl":
                                 Consolemanager.usewl(commands);
                                 break;
@@ -127,6 +130,12 @@ namespace FsmHost
                                 break;
                             case "removefromwl":
                                 Consolemanager.removefromwl(commands);
+                                break;
+                            case "recoverfrom":
+                                Consolemanager.recoverfrom(commands);
+                                break;
+                            case "reset":
+                                Consolemanager.reset();
                                 break;
                             default:
                                 Consolemanager.notvalid();

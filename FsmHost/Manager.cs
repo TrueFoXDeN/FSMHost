@@ -35,9 +35,6 @@ namespace FsmHost
                 case "con":
                     connectClient(splittedString, e);
                     break;
-                case "dcn":
-                    disconnectClient(splittedString);
-                    break;
                 case "ccl":
                     createColumn(splittedString, e);
                     break;
@@ -77,11 +74,6 @@ namespace FsmHost
             }
             usernames.Add(data[1]);
             Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
-        }
-
-        private void disconnectClient(string[] data)
-        {
-
         }
 
 

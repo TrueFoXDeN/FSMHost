@@ -29,7 +29,7 @@ namespace FsmHost
             if (s.Length == 2)
             {
                 int index = Program.manager.usernames.IndexOf(s[1]);
-                if(index != -1)
+                if (index != -1)
                 {
 
                     //Program.clients[index].Dispose();
@@ -41,7 +41,7 @@ namespace FsmHost
                 {
                     Console.WriteLine($"User {s[1]} was not found.");
                 }
-                
+
             }
             else
             {
@@ -50,8 +50,20 @@ namespace FsmHost
         }
         public static void kickall()
         {
-            Console.WriteLine(Filemanager.kickall());
+            if (Program.manager.usernames.Count == 0)
+            {
+                Console.WriteLine("No users connected to kick.");
+            }
+            for (int i = 0; i < Program.manager.usernames.Count; i++)
+            {
+                Program.manager.username = Program.manager.usernames[i];
+                Program.manager.BroadcastMessage($"kck${Program.manager.usernames[i]}");
+                Console.WriteLine($"{Program.manager.usernames[i]} has been kicked from the server.");
+            }
+            
         }
+
+
         public static void ban(string[] s)
         {
             if (s.Length == 2)

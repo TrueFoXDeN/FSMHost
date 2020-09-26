@@ -94,10 +94,7 @@ namespace FsmHost
             return "Data cleared.";
         }
        
-        public static string kickall()
-        {
-            return $"Every user has been kicked from the server.";
-        }
+       
 
     }
 }

@@ -16,7 +16,7 @@ namespace FsmHost
         public static string stringBuffer;
         public static int FlightstripIdCounter = 0;
         public static int ColumnIdCounter = 0;
-        private string username;
+        public string username;
         public static Boolean useWhitelist = false;
         public Manager()
         {
@@ -25,7 +25,6 @@ namespace FsmHost
 
         public void processReceivedData(string receivedData, Message e)
         {
-
 
             string[] splittedString = receivedData.Split('$');
             username = splittedString[0];
@@ -72,6 +71,7 @@ namespace FsmHost
             }
             else
             {
+                Console.WriteLine("Not first connection.");
                 e.ReplyLine("$rad");
                 sendAllData(e);
             }
@@ -87,17 +87,23 @@ namespace FsmHost
 
         private void sendAllData(Message e)
         {
+            
             foreach (Column c in columns)
             {
+                
                 e.ReplyLine("$ccl$" + c.name + "$" + c.id.ToString());
+
 
                 foreach (string[] s in c.Flightstrips)
                 {
                     string toSend = "";
                     Array.ForEach(s, x => toSend += (x + "$"));
+                   
                     e.ReplyLine("$cfs$" + toSend);
                 }
             }
+           
+            
         }
 
         public void BroadcastMessage(string data)

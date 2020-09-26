@@ -12,7 +12,7 @@ namespace FsmHost
     class Program
     {
 
-        static Manager manager;
+        public static Manager manager;
         public static bool isFirstConnection = true;
         public static SimpleTcpServer server;
         public static List<TcpClient> clients = new List<TcpClient>();
@@ -153,9 +153,6 @@ namespace FsmHost
 
         public static void dataReceived(object sender, Message e)
         {
-
-
-            Debug.WriteLine(e.MessageString);
             manager.processReceivedData(e.MessageString, e);
         }
 

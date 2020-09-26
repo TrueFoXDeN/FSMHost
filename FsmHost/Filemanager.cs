@@ -93,10 +93,7 @@ namespace FsmHost
         {
             return "Data cleared.";
         }
-        public static string kick(string user)
-        {
-            return $"{user} has been kicked from the server.";
-        }
+       
         public static string kickall()
         {
             return $"Every user has been kicked from the server.";

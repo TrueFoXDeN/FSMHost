@@ -8,6 +8,7 @@ namespace FsmHost
     {
         public static void help()
         {
+            Console.WriteLine("---------------------------------------------");
             Console.WriteLine("kick         Enter kick followed by the username to force a disconnect on the specified user.");
             Console.WriteLine("kickall      Enter kickall to force a disconnect for every user.");
             Console.WriteLine("ban          Enter ban followed by the username to permanently ban the specified user.");
@@ -20,14 +21,27 @@ namespace FsmHost
             Console.WriteLine("removefromwl Enter removefromwl followed by the username to remove a user from the whitelist.");
             Console.WriteLine("recoverfrom  Enter recoverfrom followed by the username to clear all current data and use the data from a client.");
             Console.WriteLine("reset        Enter reset to clear all current data.");
+            Console.WriteLine("---------------------------------------------");
 
         }
         public static void kick(string[] s)
         {
             if (s.Length == 2)
             {
+                int index = Program.manager.usernames.IndexOf(s[1]);
+                if(index != -1)
+                {
 
-                Console.WriteLine(Filemanager.kick(s[1]));
+                    //Program.clients[index].Dispose();
+                    Program.manager.username = s[1];
+                    Program.manager.BroadcastMessage($"kck${s[1]}");
+                    Console.WriteLine($"{s[1]} has been kicked from the server.");
+                }
+                else
+                {
+                    Console.WriteLine($"User {s[1]} was not found.");
+                }
+                
             }
             else
             {

@@ -154,11 +154,13 @@ namespace FsmHost
         public static void dataReceived(object sender, Message e)
         {
             manager.processReceivedData(e.MessageString, e);
+           
         }
 
         private static void ClientConnected(object sender, TcpClient client)
         {
             clients.Add(client);
+            
         }
 
 

@@ -28,33 +28,38 @@ namespace FsmHost
         {
 
             string[] splittedString = receivedData.Split('$');
-            username = splittedString[0];
-            splittedString = splittedString.Skip(1).ToArray();
-
-            switch (splittedString[0])
+            if (splittedString.Length > 2)
             {
-                case "con":
-                    connectClient(splittedString, e);
-                    break;
-                case "ccl":
-                    createColumn(splittedString, e);
-                    break;
-                case "rcl":
-                    removeColumn(splittedString.Skip(1).ToArray());
-                    break;
-                case "cfs":
-                    createFlightstrip(splittedString.Skip(1).ToArray(), e);
-                    break;
-                case "rfs":
-                    removeFlightstrip(splittedString.Skip(1).ToArray());
-                    break;
-                case "edt":
-                    editFlightstrip(splittedString.Skip(1).ToArray());
-                    break;
-                case "mov":
-                    moveFlightstrip(splittedString.Skip(1).ToArray());
-                    break;
+                username = splittedString[0];
+                splittedString = splittedString.Skip(1).ToArray();
+
+                switch (splittedString[0])
+                {
+                    case "con":
+                        connectClient(splittedString, e);
+                        break;
+                    case "ccl":
+                        createColumn(splittedString, e);
+                        break;
+                    case "rcl":
+                        removeColumn(splittedString.Skip(1).ToArray());
+                        break;
+                    case "cfs":
+                        createFlightstrip(splittedString.Skip(1).ToArray(), e);
+                        break;
+                    case "rfs":
+                        removeFlightstrip(splittedString.Skip(1).ToArray());
+                        break;
+                    case "edt":
+                        editFlightstrip(splittedString.Skip(1).ToArray());
+                        break;
+                    case "mov":
+                        moveFlightstrip(splittedString.Skip(1).ToArray());
+                        break;
+                }
             }
+
+         
         }
 
 
@@ -62,17 +67,15 @@ namespace FsmHost
         {
 
             string ip = Program.clients[0].Client.RemoteEndPoint.ToString().Split(':')[0];
-            Debug.WriteLine(data.Length);
-            Debug.WriteLine(ip);
             string username = data[1];
 
+            usernames.Add(data[1]);
             if (Filemanager.isBanned(data[1]) || Filemanager.isIpBanned(ip))
             {
                 e.ReplyLine($"$kck${username}$1");
             }
             else
             {
-               
                 if (Program.isFirstConnection)
                 {
                     Console.WriteLine("First connection, fetching Data...");
@@ -85,7 +88,7 @@ namespace FsmHost
                     e.ReplyLine("$rad");
                     sendAllData(e);
                 }
-                usernames.Add(data[1]);
+
                 Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
             }
 

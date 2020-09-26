@@ -45,7 +45,7 @@ namespace FsmHost
             if (File.Exists("blacklist.txt"))
             {
                 var lines = File.ReadAllLines("blacklist.txt");
-                
+
                 foreach (string s in lines)
                 {
                     if (s.Contains(user)) return true;

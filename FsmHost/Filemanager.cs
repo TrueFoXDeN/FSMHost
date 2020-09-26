@@ -12,6 +12,10 @@ namespace FsmHost
 
         public static string blacklist(string user, string ip)
         {
+            if (!File.Exists("blacklist.txt"))
+            {
+                File.Create("blacklist.txt").Close();
+            }
             Boolean alreadyBanned = false;
             var lines = File.ReadAllLines("blacklist.txt");
             foreach (string s in lines)
@@ -22,7 +26,7 @@ namespace FsmHost
             {
                 return $"{user} has already been banned from the server.";
             }
-            File.AppendAllText("blacklist.txt", $"ban;{user};{ip}\n");
+            File.AppendAllText("blacklist.txt", $"{user};{ip}\n");
             return $"{user} has been banned from the server.";
         }
         public static string removeFromBlacklist(string user, string ip)
@@ -34,6 +38,35 @@ namespace FsmHost
             }
             return $"{user} has been unbanned from the server.";
 
+        }
+
+        public static Boolean isBanned(string user)
+        {
+            if (File.Exists("blacklist.txt"))
+            {
+                var lines = File.ReadAllLines("blacklist.txt");
+                
+                foreach (string s in lines)
+                {
+                    if (s.Contains(user)) return true;
+                }
+                return false;
+
+            }
+            return false;
+        }
+        public static Boolean isIpBanned(string ip)
+        {
+            if (File.Exists("blacklist.txt"))
+            {
+                var lines = File.ReadAllLines("blacklist.txt");
+                foreach (string s in lines)
+                {
+                    return lines.Contains(ip);
+                }
+                return false;
+            }
+            return false;
         }
 
         public static string toggleWhitelist(Boolean b)
@@ -93,8 +126,8 @@ namespace FsmHost
         {
             return "Data cleared.";
         }
-       
-       
+
+
 
     }
 }

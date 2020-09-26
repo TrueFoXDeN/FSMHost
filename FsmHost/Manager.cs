@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,29 +61,43 @@ namespace FsmHost
         private void connectClient(string[] data, Message e)
         {
 
-            if (Program.isFirstConnection)
+            string ip = Program.clients[0].Client.RemoteEndPoint.ToString().Split(':')[0];
+            Debug.WriteLine(data.Length);
+            Debug.WriteLine(ip);
+            string username = data[1];
+
+            if (Filemanager.isBanned(data[1]) || Filemanager.isIpBanned(ip))
             {
-                Console.WriteLine("First connection, fetching Data...");
-                e.ReplyLine("$gad");
-                Program.isFirstConnection = false;
+                e.ReplyLine($"$kck${username}$1");
             }
             else
             {
-                Console.WriteLine("Not first connection.");
-                e.ReplyLine("$rad");
-                sendAllData(e);
+               
+                if (Program.isFirstConnection)
+                {
+                    Console.WriteLine("First connection, fetching Data...");
+                    e.ReplyLine("$gad");
+                    Program.isFirstConnection = false;
+                }
+                else
+                {
+                    Console.WriteLine("Not first connection.");
+                    e.ReplyLine("$rad");
+                    sendAllData(e);
+                }
+                usernames.Add(data[1]);
+                Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
             }
-            usernames.Add(data[1]);
-            Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
+
         }
 
 
         private void sendAllData(Message e)
         {
-            
+
             foreach (Column c in columns)
             {
-                
+
                 e.ReplyLine("$ccl$" + c.name + "$" + c.id.ToString());
 
 
@@ -90,12 +105,12 @@ namespace FsmHost
                 {
                     string toSend = "";
                     Array.ForEach(s, x => toSend += (x + "$"));
-                   
+
                     e.ReplyLine("$cfs$" + toSend);
                 }
             }
-           
-            
+
+
         }
 
         public void BroadcastMessage(string data)

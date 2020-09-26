@@ -24,7 +24,7 @@ namespace FsmHost
             Console.WriteLine("---------------------------------------------");
 
         }
-        public static void kick(string[] s)
+        public static void kick(string[] s, int banned)
         {
             if (s.Length == 2)
             {
@@ -34,14 +34,20 @@ namespace FsmHost
 
                     //Program.clients[index].Dispose();
                     Program.manager.username = s[1];
-                    Program.manager.BroadcastMessage($"kck${s[1]}");
-                    Console.WriteLine($"{s[1]} has been kicked from the server.");
+                    Program.manager.BroadcastMessage($"kck${s[1]}${banned}");
+                    if (banned != 1)
+                    {
+                        Console.WriteLine($"{s[1]} has been kicked from the server.");
+                    }
+
                 }
                 else
                 {
-                    Console.WriteLine($"User {s[1]} was not found.");
+                    if (banned != 1)
+                    {
+                        Console.WriteLine($"User {s[1]} was not found.");
+                    }
                 }
-
             }
             else
             {
@@ -60,7 +66,7 @@ namespace FsmHost
                 Program.manager.BroadcastMessage($"kck${Program.manager.usernames[i]}");
                 Console.WriteLine($"{Program.manager.usernames[i]} has been kicked from the server.");
             }
-            
+
         }
 
 
@@ -68,8 +74,8 @@ namespace FsmHost
         {
             if (s.Length == 2)
             {
-
                 Console.WriteLine(Filemanager.blacklist(s[1], ""));
+                kick(s, 1);
             }
             else
             {
@@ -82,6 +88,7 @@ namespace FsmHost
             {
 
                 Console.WriteLine(Filemanager.blacklist(s[1], "127.0.0.1"));
+                kick(s, 1);
             }
             else
             {
@@ -99,17 +106,7 @@ namespace FsmHost
                 Console.WriteLine("Wrong number of arguments");
             }
         }
-        public static void unbanip(string[] s)
-        {
-            if (s.Length == 2)
-            {
-                Console.WriteLine(Filemanager.removeFromBlacklist(s[1], "127.0.0.1"));
-            }
-            else
-            {
-                Console.WriteLine("Wrong number of arguments");
-            }
-        }
+
         public static void usewl(string[] s)
         {
             if (s.Length == 2)

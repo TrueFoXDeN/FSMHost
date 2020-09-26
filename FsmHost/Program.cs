@@ -108,7 +108,7 @@ namespace FsmHost
                                 Consolemanager.help();
                                 break;
                             case "kick":
-                                Consolemanager.kick(commands);
+                                Consolemanager.kick(commands, 0);
                                 break;
                             case "kickall":
                                 Consolemanager.kickall();

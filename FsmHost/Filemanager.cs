@@ -95,6 +95,10 @@ namespace FsmHost
         }
         public static string addtowl(string user)
         {
+            if (!File.Exists("whitelist.txt"))
+            {
+                File.Create("whitelist.txt").Close();
+            }
             Boolean alreadyAdded = false;
             var lines = File.ReadAllLines("whitelist.txt");
             foreach (string s in lines)
@@ -122,11 +126,22 @@ namespace FsmHost
         {
             return $"Data cleared and recovered from {user}.";
         }
-        public static string reset()
-        {
-            return "Data cleared.";
-        }
 
+        public static Boolean isOnWhitelist(string user)
+        {
+            if (File.Exists("whitelist.txt"))
+            {
+                var lines = File.ReadAllLines("whitelist.txt");
+
+                foreach (string s in lines)
+                {
+                    if (s.Contains(user)) return true;
+                }
+                return false;
+
+            }
+            return false;
+        }
 
 
     }

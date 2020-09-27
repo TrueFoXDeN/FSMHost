@@ -59,7 +59,7 @@ namespace FsmHost
                 }
             }
 
-         
+
         }
 
 
@@ -73,6 +73,12 @@ namespace FsmHost
             if (Filemanager.isBanned(data[1]) || Filemanager.isIpBanned(ip))
             {
                 e.ReplyLine($"$kck${username}$1");
+            }
+            else if (useWhitelist && !Filemanager.isOnWhitelist(data[1]))
+            {
+
+                e.ReplyLine($"$kck${username}$2");
+
             }
             else
             {

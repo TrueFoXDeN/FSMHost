@@ -153,7 +153,13 @@ namespace FsmHost
         }
         public static void reset()
         {
-            Console.WriteLine(Filemanager.reset()); ;
+            //Console.WriteLine(Filemanager.reset()); ;
+            Manager.ColumnIdCounter = 0;
+            Manager.FlightstripIdCounter = 0;
+            Program.manager.columns.Clear();
+            Console.WriteLine("Data has been cleared.");
+            Program.manager.username = "";
+            Program.manager.BroadcastMessage("rad");
         }
         public static void notvalid()
         {

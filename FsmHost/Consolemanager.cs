@@ -8,26 +8,95 @@ namespace FsmHost
     {
         public static void help()
         {
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("listuser     Lists all connected users.");
             Console.WriteLine("kick         Enter kick followed by the username to force a disconnect on the specified user.");
             Console.WriteLine("kickall      Enter kickall to force a disconnect for every user.");
             Console.WriteLine("ban          Enter ban followed by the username to permanently ban the specified user.");
             Console.WriteLine("banip        Enter banip followed by the username to permanently ban the specified user including its ip.\n" +
                 "             This option blocks every account from connecting, coming from this ip");
             Console.WriteLine("unban        Enter unban followed by the username to unban the specified user.");
+            Console.WriteLine("listbanned   Lists all banned users.");
             Console.WriteLine("usewl        Enter usewl followed by true or false to enable or disable the whitelist.\n" +
                 "             If this option is enabled, only usernames in the textfile \"whitelist.txt\" will be allowed to connect.");
             Console.WriteLine("addtowl      Enter addtowl followed by the username to add a user to the whitelist.");
             Console.WriteLine("removefromwl Enter removefromwl followed by the username to remove a user from the whitelist.");
+            Console.WriteLine("listwl       Lists all whitelisted users.");
             Console.WriteLine("recoverfrom  Enter recoverfrom followed by the username to clear all current data and use the data from a client.");
             Console.WriteLine("reset        Enter reset to clear all current data.");
+            Console.WriteLine("---------------------------------------------");
 
         }
-        public static void kick(string[] s)
+
+        public static void listuser()
+        {
+            if (Program.manager.usernames == null || Program.manager.usernames.Count == 0)
+            {
+                Console.WriteLine("No users are connected.");
+            }
+            else
+            {
+                foreach (string user in Program.manager.usernames)
+                {
+                    Console.WriteLine(user);
+                }
+            }
+        }
+
+        public static void listbanned()
+        {
+            if (Filemanager.bannedUsers() == null)
+            {
+                Console.WriteLine("No users were banned.");
+            }
+            else
+            {
+                foreach (string s in Filemanager.bannedUsers())
+                {
+                    Console.WriteLine(s.Replace(";", ""));
+                }
+            }
+
+        }
+
+        public static void listwl()
+        {
+            if (Filemanager.whitelistedUsers() == null)
+            {
+                Console.WriteLine("No users were whitelisted.");
+            }
+            else
+            {
+                foreach (string s in Filemanager.whitelistedUsers())
+                {
+                    Console.WriteLine(s);
+                }
+            }
+        }
+        public static void kick(string[] s, int banned)
         {
             if (s.Length == 2)
             {
+                int index = Program.manager.usernames.IndexOf(s[1]);
+                if (index != -1)
+                {
 
-                Console.WriteLine(Filemanager.kick(s[1]));
+                    //Program.clients[index].Dispose();
+                    Program.manager.username = s[1];
+                    Program.manager.BroadcastMessage($"kck${s[1]}${banned}");
+                    if (banned != 1)
+                    {
+                        Console.WriteLine($"{s[1]} has been kicked from the server.");
+                    }
+
+                }
+                else
+                {
+                    if (banned != 1)
+                    {
+                        Console.WriteLine($"User {s[1]} was not found.");
+                    }
+                }
             }
             else
             {
@@ -36,14 +105,26 @@ namespace FsmHost
         }
         public static void kickall()
         {
-            Console.WriteLine(Filemanager.kickall());
+            if (Program.manager.usernames.Count == 0)
+            {
+                Console.WriteLine("No users connected to kick.");
+            }
+            for (int i = 0; i < Program.manager.usernames.Count; i++)
+            {
+                Program.manager.username = Program.manager.usernames[i];
+                Program.manager.BroadcastMessage($"kck${Program.manager.usernames[i]}");
+                Console.WriteLine($"{Program.manager.usernames[i]} has been kicked from the server.");
+            }
+
         }
+
+
         public static void ban(string[] s)
         {
             if (s.Length == 2)
             {
-
                 Console.WriteLine(Filemanager.blacklist(s[1], ""));
+                kick(s, 1);
             }
             else
             {
@@ -56,6 +137,7 @@ namespace FsmHost
             {
 
                 Console.WriteLine(Filemanager.blacklist(s[1], "127.0.0.1"));
+                kick(s, 1);
             }
             else
             {
@@ -73,17 +155,7 @@ namespace FsmHost
                 Console.WriteLine("Wrong number of arguments");
             }
         }
-        public static void unbanip(string[] s)
-        {
-            if (s.Length == 2)
-            {
-                Console.WriteLine(Filemanager.removeFromBlacklist(s[1], "127.0.0.1"));
-            }
-            else
-            {
-                Console.WriteLine("Wrong number of arguments");
-            }
-        }
+
         public static void usewl(string[] s)
         {
             if (s.Length == 2)
@@ -121,7 +193,13 @@ namespace FsmHost
         {
             if (s.Length == 2)
             {
-                Console.WriteLine(Filemanager.recoverfrom(s[1]));
+                //Console.WriteLine(Filemanager.recoverfrom(s[1]));
+                Program.manager.username = "";
+                Manager.ColumnIdCounter = 0;
+                Manager.FlightstripIdCounter = 0;
+                Program.manager.columns.Clear();
+                Program.manager.BroadcastMessage($"gad${s[1]}");
+                Console.WriteLine($"Recovering data from {s[1]}...");
             }
             else
             {
@@ -130,7 +208,13 @@ namespace FsmHost
         }
         public static void reset()
         {
-            Console.WriteLine(Filemanager.reset()); ;
+            //Console.WriteLine(Filemanager.reset()); ;
+            Manager.ColumnIdCounter = 0;
+            Manager.FlightstripIdCounter = 0;
+            Program.manager.columns.Clear();
+            Console.WriteLine("Data has been cleared.");
+            Program.manager.username = "";
+            Program.manager.BroadcastMessage("rad");
         }
         public static void notvalid()
         {

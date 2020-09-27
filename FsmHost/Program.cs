@@ -13,7 +13,7 @@ namespace FsmHost
     class Program
     {
 
-        static Manager manager;
+        public static Manager manager;
         public static bool isFirstConnection = true;
         public static SimpleTcpServer server;
         public static List<TcpClient> clients = new List<TcpClient>();
@@ -108,8 +108,11 @@ namespace FsmHost
                             case "help":
                                 Consolemanager.help();
                                 break;
+                            case "listuser":
+                                Consolemanager.listuser();
+                                break;
                             case "kick":
-                                Consolemanager.kick(commands);
+                                Consolemanager.kick(commands, 0);
                                 break;
                             case "kickall":
                                 Consolemanager.kickall();
@@ -123,6 +126,9 @@ namespace FsmHost
                             case "unban":
                                 Consolemanager.unban(commands);
                                 break;
+                            case "listbanned":
+                                Consolemanager.listbanned();
+                                break;
                             case "usewl":
                                 Consolemanager.usewl(commands);
                                 break;
@@ -131,6 +137,9 @@ namespace FsmHost
                                 break;
                             case "removefromwl":
                                 Consolemanager.removefromwl(commands);
+                                break;
+                            case "listwl":
+                                Consolemanager.listwl();
                                 break;
                             case "recoverfrom":
                                 Consolemanager.recoverfrom(commands);
@@ -154,14 +163,14 @@ namespace FsmHost
 
         public static void dataReceived(object sender, Message e)
         {
-            Debug.WriteLine(e.MessageString);
             manager.processReceivedData(e.MessageString, e);
-
+           
         }
 
         private static void ClientConnected(object sender, TcpClient client)
         {
             clients.Add(client);
+            
         }
 
 

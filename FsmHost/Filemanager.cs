@@ -12,6 +12,10 @@ namespace FsmHost
 
         public static string blacklist(string user, string ip)
         {
+            if (!File.Exists("blacklist.txt"))
+            {
+                File.Create("blacklist.txt").Close();
+            }
             Boolean alreadyBanned = false;
             var lines = File.ReadAllLines("blacklist.txt");
             foreach (string s in lines)
@@ -22,7 +26,7 @@ namespace FsmHost
             {
                 return $"{user} has already been banned from the server.";
             }
-            File.AppendAllText("blacklist.txt", $"ban;{user};{ip}\n");
+            File.AppendAllText("blacklist.txt", $"{user};{ip}\n");
             return $"{user} has been banned from the server.";
         }
         public static string removeFromBlacklist(string user, string ip)
@@ -34,6 +38,52 @@ namespace FsmHost
             }
             return $"{user} has been unbanned from the server.";
 
+        }
+
+        public static string[] bannedUsers()
+        {
+            if (File.Exists("blacklist.txt"))
+            {
+                return File.ReadAllLines("blacklist.txt");
+            }
+            return null;
+            
+        }
+        public static string[] whitelistedUsers()
+        {
+            if (File.Exists("whitelist.txt"))
+            {
+                return File.ReadAllLines("whitelist.txt");
+            }
+            return null;
+        }
+        public static Boolean isBanned(string user)
+        {
+            if (File.Exists("blacklist.txt"))
+            {
+                var lines = File.ReadAllLines("blacklist.txt");
+
+                foreach (string s in lines)
+                {
+                    if (s.Contains(user)) return true;
+                }
+                return false;
+
+            }
+            return false;
+        }
+        public static Boolean isIpBanned(string ip)
+        {
+            if (File.Exists("blacklist.txt"))
+            {
+                var lines = File.ReadAllLines("blacklist.txt");
+                foreach (string s in lines)
+                {
+                    return lines.Contains(ip);
+                }
+                return false;
+            }
+            return false;
         }
 
         public static string toggleWhitelist(Boolean b)
@@ -62,6 +112,10 @@ namespace FsmHost
         }
         public static string addtowl(string user)
         {
+            if (!File.Exists("whitelist.txt"))
+            {
+                File.Create("whitelist.txt").Close();
+            }
             Boolean alreadyAdded = false;
             var lines = File.ReadAllLines("whitelist.txt");
             foreach (string s in lines)
@@ -85,22 +139,23 @@ namespace FsmHost
             }
             return $"{user} has been removed from the whitelist.";
         }
-        public static string recoverfrom(string user)
+      
+        public static Boolean isOnWhitelist(string user)
         {
-            return $"Data cleared and recovered from {user}.";
+            if (File.Exists("whitelist.txt"))
+            {
+                var lines = File.ReadAllLines("whitelist.txt");
+
+                foreach (string s in lines)
+                {
+                    if (s.Contains(user)) return true;
+                }
+                return false;
+
+            }
+            return false;
         }
-        public static string reset()
-        {
-            return "Data cleared.";
-        }
-        public static string kick(string user)
-        {
-            return $"{user} has been kicked from the server.";
-        }
-        public static string kickall()
-        {
-            return $"Every user has been kicked from the server.";
-        }
+
 
     }
 }

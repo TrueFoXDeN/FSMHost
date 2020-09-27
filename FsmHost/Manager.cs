@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace FsmHost
         public static string stringBuffer;
         public static int FlightstripIdCounter = 0;
         public static int ColumnIdCounter = 0;
-        private string username;
+        public string username;
         public static Boolean useWhitelist = false;
         public Manager()
         {
@@ -26,78 +27,99 @@ namespace FsmHost
         public void processReceivedData(string receivedData, Message e)
         {
 
-
             string[] splittedString = receivedData.Split('$');
-            username = splittedString[0];
-            splittedString = splittedString.Skip(1).ToArray();
-
-            switch (splittedString[0])
+            if (splittedString.Length > 2)
             {
-                case "con":
-                    connectClient(splittedString, e);
-                    break;
-                case "dcn":
-                    disconnectClient(splittedString);
-                    break;
-                case "ccl":
-                    createColumn(splittedString, e);
-                    break;
-                case "rcl":
-                    removeColumn(splittedString.Skip(1).ToArray());
-                    break;
-                case "cfs":
-                    createFlightstrip(splittedString.Skip(1).ToArray(), e);
-                    break;
-                case "rfs":
-                    removeFlightstrip(splittedString.Skip(1).ToArray());
-                    break;
-                case "edt":
-                    editFlightstrip(splittedString.Skip(1).ToArray());
-                    break;
-                case "mov":
-                    moveFlightstrip(splittedString.Skip(1).ToArray());
-                    break;
+                username = splittedString[0];
+                splittedString = splittedString.Skip(1).ToArray();
+
+                switch (splittedString[0])
+                {
+                    case "con":
+                        connectClient(splittedString, e);
+                        break;
+                    case "ccl":
+                        createColumn(splittedString, e);
+                        break;
+                    case "rcl":
+                        removeColumn(splittedString.Skip(1).ToArray());
+                        break;
+                    case "cfs":
+                        createFlightstrip(splittedString.Skip(1).ToArray(), e);
+                        break;
+                    case "rfs":
+                        removeFlightstrip(splittedString.Skip(1).ToArray());
+                        break;
+                    case "edt":
+                        editFlightstrip(splittedString.Skip(1).ToArray());
+                        break;
+                    case "mov":
+                        moveFlightstrip(splittedString.Skip(1).ToArray());
+                        break;
+                }
             }
+
+
         }
 
 
         private void connectClient(string[] data, Message e)
         {
 
-            if (Program.isFirstConnection)
+            string ip = Program.clients[0].Client.RemoteEndPoint.ToString().Split(':')[0];
+            string username = data[1];
+
+            usernames.Add(data[1]);
+            if (Filemanager.isBanned(data[1]) || Filemanager.isIpBanned(ip))
             {
-                Console.WriteLine("First connection, fetching Data...");
-                e.ReplyLine("$gad");
-                Program.isFirstConnection = false;
+                e.ReplyLine($"$kck${username}$1");
+            }
+            else if (useWhitelist && !Filemanager.isOnWhitelist(data[1]))
+            {
+
+                e.ReplyLine($"$kck${username}$2");
+
             }
             else
             {
-                e.ReplyLine("$rad");
-                sendAllData(e);
-            }
-            usernames.Add(data[1]);
-            Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
-        }
+                if (Program.isFirstConnection)
+                {
+                    Console.WriteLine("First connection, fetching Data...");
+                    e.ReplyLine("$gad");
+                    Program.isFirstConnection = false;
+                }
+                else
+                {
+                    Console.WriteLine("Not first connection.");
+                    e.ReplyLine("$rad");
+                    sendAllData(e);
+                }
 
-        private void disconnectClient(string[] data)
-        {
+                Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
+            }
 
         }
 
 
         private void sendAllData(Message e)
         {
+
             foreach (Column c in columns)
             {
+
                 e.ReplyLine("$ccl$" + c.name + "$" + c.id.ToString());
+
 
                 foreach (string[] s in c.Flightstrips)
                 {
                     string toSend = "";
                     Array.ForEach(s, x => toSend += (x + "$"));
+
                     e.ReplyLine("$cfs$" + toSend);
                 }
             }
+
+
         }
 
         public void BroadcastMessage(string data)

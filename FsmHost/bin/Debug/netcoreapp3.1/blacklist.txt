@@ -1,2 +1,0 @@
-ban;Chrisi285;
-ban;FoX;127.0.0.1

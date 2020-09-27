@@ -40,6 +40,23 @@ namespace FsmHost
 
         }
 
+        public static string[] bannedUsers()
+        {
+            if (File.Exists("blacklist.txt"))
+            {
+                return File.ReadAllLines("blacklist.txt");
+            }
+            return null;
+            
+        }
+        public static string[] whitelistedUsers()
+        {
+            if (File.Exists("whitelist.txt"))
+            {
+                return File.ReadAllLines("whitelist.txt");
+            }
+            return null;
+        }
         public static Boolean isBanned(string user)
         {
             if (File.Exists("blacklist.txt"))
@@ -122,11 +139,7 @@ namespace FsmHost
             }
             return $"{user} has been removed from the whitelist.";
         }
-        public static string recoverfrom(string user)
-        {
-            return $"Data cleared and recovered from {user}.";
-        }
-
+      
         public static Boolean isOnWhitelist(string user)
         {
             if (File.Exists("whitelist.txt"))

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 
 namespace FsmHost
@@ -153,10 +154,9 @@ namespace FsmHost
 
         public static void dataReceived(object sender, Message e)
         {
-
-
             Debug.WriteLine(e.MessageString);
             manager.processReceivedData(e.MessageString, e);
+
         }
 
         private static void ClientConnected(object sender, TcpClient client)
@@ -171,6 +171,13 @@ namespace FsmHost
             Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
             manager.usernames.RemoveAt(index);
             clients.Remove(client);
+
+            List<IPAddress> clientsList = new List<IPAddress>();
+            clientsList = server.GetListeningIPs();
+            for (int i = 0; i < clientsList.Count; i++){
+                Debug.WriteLine(clientsList[i]);
+            }
+
         }
 
 

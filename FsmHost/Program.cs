@@ -107,6 +107,12 @@ namespace FsmHost
                             case "help":
                                 Consolemanager.help();
                                 break;
+                            case "msg":
+                                Consolemanager.msg(commands);
+                                break;
+                            case "msguser":
+                                Consolemanager.msguser(commands);
+                                break;
                             case "listuser":
                                 Consolemanager.listuser();
                                 break;
@@ -163,22 +169,31 @@ namespace FsmHost
         public static void dataReceived(object sender, Message e)
         {
             manager.processReceivedData(e.MessageString, e);
-           
+
         }
 
         private static void ClientConnected(object sender, TcpClient client)
         {
             clients.Add(client);
-            
+
         }
 
 
         private static void ClientDisconnected(object sender, TcpClient client)
         {
-            int index = clients.IndexOf(client);
-            Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
-            manager.usernames.RemoveAt(index);
-            clients.Remove(client);
+            try
+            {
+                int index = clients.IndexOf(client);
+                Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
+                manager.usernames.RemoveAt(index);
+                clients.Remove(client);
+            }
+            catch
+            {
+                Console.WriteLine("Error on user disconnect");
+            }
+
+
         }
 
 

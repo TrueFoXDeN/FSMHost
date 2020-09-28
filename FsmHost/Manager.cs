@@ -84,13 +84,13 @@ namespace FsmHost
             {
                 if (Program.isFirstConnection)
                 {
-                    Console.WriteLine("First connection, fetching Data...");
+                    //Console.WriteLine("First connection, fetching Data...");
                     e.ReplyLine("$gad");
                     Program.isFirstConnection = false;
                 }
                 else
                 {
-                    Console.WriteLine("Not first connection.");
+                    //Console.WriteLine("Not first connection.");
                     e.ReplyLine("$rad");
                     sendAllData(e);
                 }

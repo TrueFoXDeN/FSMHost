@@ -9,22 +9,68 @@ namespace FsmHost
         public static void help()
         {
             Console.WriteLine("---------------------------------------------");
-            Console.WriteLine("listuser     Lists all connected users.");
-            Console.WriteLine("kick         Enter kick followed by the username to force a disconnect on the specified user.");
-            Console.WriteLine("kickall      Enter kickall to force a disconnect for every user.");
-            Console.WriteLine("ban          Enter ban followed by the username to permanently ban the specified user.");
-            Console.WriteLine("banip        Enter banip followed by the username to permanently ban the specified user including its ip.\n" +
-                "             This option blocks every account from connecting, coming from this ip");
-            Console.WriteLine("unban        Enter unban followed by the username to unban the specified user.");
-            Console.WriteLine("listbanned   Lists all banned users.");
-            Console.WriteLine("usewl        Enter usewl followed by true or false to enable or disable the whitelist.\n" +
-                "             If this option is enabled, only usernames in the textfile \"whitelist.txt\" will be allowed to connect.");
-            Console.WriteLine("addtowl      Enter addtowl followed by the username to add a user to the whitelist.");
-            Console.WriteLine("removefromwl Enter removefromwl followed by the username to remove a user from the whitelist.");
-            Console.WriteLine("listwl       Lists all whitelisted users.");
-            Console.WriteLine("recoverfrom  Enter recoverfrom followed by the username to clear all current data and use the data from a client.");
-            Console.WriteLine("reset        Enter reset to clear all current data.");
+            Console.WriteLine("msg [message]            Sends a message to every connected user.");
+            Console.WriteLine("msguser [user] [message] Sends a message to every connected user.");
+            Console.WriteLine("listuser                 Lists all connected users.");
+            Console.WriteLine("kick [user]              Kicks a user from the server.");
+            Console.WriteLine("kickall                  Kicks every user on the server.");
+            Console.WriteLine("ban [user]               Permanently bans the specified user.");
+            Console.WriteLine("banip [user]             Permanently bans the specified user including its ip.");
+            Console.WriteLine("unban [user]             Unbans the specified user.");
+            Console.WriteLine("listbanned               Lists all banned users.");
+            Console.WriteLine("usewl [true/false]       Enables or disables the whitelist.");
+            Console.WriteLine("addtowl [user]           Add the specified user to the whitelist.");
+            Console.WriteLine("removefromwl [user]      Removes a user from the whitelist.");
+            Console.WriteLine("listwl                   Lists all whitelisted users.");
+            Console.WriteLine("recoverfrom [user]       Clears all current data and recovers the data from a client.");
+            Console.WriteLine("reset                    Clears all current data.");
             Console.WriteLine("---------------------------------------------");
+
+        }
+
+        public static void msg(string[] s)
+        {
+            if (s.Length >= 2)
+            {
+                Program.manager.username = "";
+                string msg = "";
+                for (int i = 1; i < s.Length; i++)
+                {
+                    msg += s[i] + " ";
+                }
+                Program.manager.BroadcastMessage($"msg${msg}");
+            }
+            else
+            {
+                Console.WriteLine("Wrong number of arguments");
+            }
+
+        }
+
+        public static void msguser(string[] s)
+        {
+            if (s.Length >= 3)
+            {
+                if (Program.manager.usernames.Contains(s[1]))
+                {
+                    Program.manager.username = "";
+                    string msg = "";
+                    for (int i = 2; i < s.Length; i++)
+                    {
+                        msg += s[i] + " ";
+                    }
+                    Program.manager.BroadcastMessage($"msguser${s[1]}${msg}");
+                }
+                else
+                {
+                    Console.WriteLine($"User {s[1]} is not connected to the server.");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Wrong number of arguments");
+            }
 
         }
 

@@ -10,7 +10,7 @@ namespace FsmHost
         {
             Console.WriteLine("---------------------------------------------");
             Console.WriteLine("msg [message]            Sends a message to every connected user.");
-            Console.WriteLine("msguser [user] [message] Sends a message to every connected user.");
+            Console.WriteLine("msguser [user] [message] Sends a message to the specified user.");
             Console.WriteLine("listuser                 Lists all connected users.");
             Console.WriteLine("kick [user]              Kicks a user from the server.");
             Console.WriteLine("kickall                  Kicks every user on the server.");

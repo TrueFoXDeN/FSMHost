@@ -240,12 +240,20 @@ namespace FsmHost
             if (s.Length == 2)
             {
                 //Console.WriteLine(Filemanager.recoverfrom(s[1]));
-                Program.manager.username = "";
-                Manager.ColumnIdCounter = 0;
-                Manager.FlightstripIdCounter = 0;
-                Program.manager.columns.Clear();
-                Program.manager.BroadcastMessage($"gad${s[1]}");
-                Console.WriteLine($"Recovering data from {s[1]}...");
+                if (Program.manager.usernames.Contains(s[1]))
+                {
+                    Program.manager.username = "";
+                    Manager.ColumnIdCounter = 0;
+                    Manager.FlightstripIdCounter = 0;
+                    Program.manager.columns.Clear();
+                    Program.manager.BroadcastMessage($"gad${s[1]}");
+                    Console.WriteLine($"Recovering data from {s[1]}...");
+                }
+                else
+                {
+                    Console.WriteLine($"User {s[1]} is not connected. Data recovery failed.");
+                }
+
             }
             else
             {
@@ -261,6 +269,21 @@ namespace FsmHost
             Console.WriteLine("Data has been cleared.");
             Program.manager.username = "";
             Program.manager.BroadcastMessage("rad");
+        }
+        public static void error(string s)
+        {
+            Console.WriteLine($"#############################################\nError occured during [{s}]");
+            if (Program.manager.usernames.Count == 0)
+            {
+                Console.WriteLine("Server restart is recommended.");
+                Console.WriteLine("Data recovery is not available.");
+            }
+            else
+            {
+                Console.WriteLine("Server restart is recommended.");
+                Console.WriteLine("Enter: recoverfrom [user] to restore the data.");
+            }
+            Console.WriteLine("#############################################");
         }
         public static void notvalid()
         {

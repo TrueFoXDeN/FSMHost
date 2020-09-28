@@ -26,38 +26,46 @@ namespace FsmHost
 
         public void processReceivedData(string receivedData, Message e)
         {
-
-            string[] splittedString = receivedData.Split('$');
-            if (splittedString.Length > 2)
+            try
             {
-                username = splittedString[0];
-                splittedString = splittedString.Skip(1).ToArray();
-
-                switch (splittedString[0])
+                string[] splittedString = receivedData.Split('$');
+                if (splittedString.Length > 2)
                 {
-                    case "con":
-                        connectClient(splittedString, e);
-                        break;
-                    case "ccl":
-                        createColumn(splittedString, e);
-                        break;
-                    case "rcl":
-                        removeColumn(splittedString.Skip(1).ToArray());
-                        break;
-                    case "cfs":
-                        createFlightstrip(splittedString.Skip(1).ToArray(), e);
-                        break;
-                    case "rfs":
-                        removeFlightstrip(splittedString.Skip(1).ToArray());
-                        break;
-                    case "edt":
-                        editFlightstrip(splittedString.Skip(1).ToArray());
-                        break;
-                    case "mov":
-                        moveFlightstrip(splittedString.Skip(1).ToArray());
-                        break;
+                    username = splittedString[0];
+                    splittedString = splittedString.Skip(1).ToArray();
+
+                    switch (splittedString[0])
+                    {
+                        case "con":
+                            connectClient(splittedString, e);
+                            break;
+                        case "ccl":
+                            createColumn(splittedString, e);
+                            break;
+                        case "rcl":
+                            removeColumn(splittedString.Skip(1).ToArray());
+                            break;
+                        case "cfs":
+                            createFlightstrip(splittedString.Skip(1).ToArray(), e);
+                            break;
+                        case "rfs":
+                            removeFlightstrip(splittedString.Skip(1).ToArray());
+                            break;
+                        case "edt":
+                            editFlightstrip(splittedString.Skip(1).ToArray());
+                            break;
+                        case "mov":
+                            moveFlightstrip(splittedString.Skip(1).ToArray());
+                            break;
+                    }
                 }
             }
+            catch
+            {
+                Consolemanager.error("process data");
+            }
+
+
 
 
         }
@@ -65,58 +73,72 @@ namespace FsmHost
 
         private void connectClient(string[] data, Message e)
         {
-
-            string ip = Program.clients[0].Client.RemoteEndPoint.ToString().Split(':')[0];
-            string username = data[1];
-
-            usernames.Add(data[1]);
-            if (Filemanager.isBanned(data[1]) || Filemanager.isIpBanned(ip))
+            try
             {
-                e.ReplyLine($"$kck${username}$1");
-            }
-            else if (useWhitelist && !Filemanager.isOnWhitelist(data[1]))
-            {
+                string ip = Program.clients[0].Client.RemoteEndPoint.ToString().Split(':')[0];
+                string username = data[1];
 
-                e.ReplyLine($"$kck${username}$2");
-
-            }
-            else
-            {
-                if (Program.isFirstConnection)
+                usernames.Add(data[1]);
+                if (Filemanager.isBanned(data[1]) || Filemanager.isIpBanned(ip))
                 {
-                    //Console.WriteLine("First connection, fetching Data...");
-                    e.ReplyLine("$gad");
-                    Program.isFirstConnection = false;
+                    e.ReplyLine($"$kck${username}$1");
+                }
+                else if (useWhitelist && !Filemanager.isOnWhitelist(data[1]))
+                {
+
+                    e.ReplyLine($"$kck${username}$2");
+
                 }
                 else
                 {
-                    //Console.WriteLine("Not first connection.");
-                    e.ReplyLine("$rad");
-                    sendAllData(e);
-                }
+                    if (Program.isFirstConnection)
+                    {
+                        //Console.WriteLine("First connection, fetching Data...");
+                        e.ReplyLine("$gad");
+                        Program.isFirstConnection = false;
+                    }
+                    else
+                    {
+                        //Console.WriteLine("Not first connection.");
+                        e.ReplyLine("$rad");
+                        sendAllData(e);
+                    }
 
-                Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
+                    Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
+                }
             }
+            catch
+            {
+                Consolemanager.error("connect client");
+            }
+
+
 
         }
 
 
         private void sendAllData(Message e)
         {
-
-            foreach (Column c in columns)
+            try
             {
-
-                e.ReplyLine("$ccl$" + c.name + "$" + c.id.ToString());
-
-
-                foreach (string[] s in c.Flightstrips)
+                foreach (Column c in columns)
                 {
-                    string toSend = "";
-                    Array.ForEach(s, x => toSend += (x + "$"));
 
-                    e.ReplyLine("$cfs$" + toSend);
+                    e.ReplyLine("$ccl$" + c.name + "$" + c.id.ToString());
+
+
+                    foreach (string[] s in c.Flightstrips)
+                    {
+                        string toSend = "";
+                        Array.ForEach(s, x => toSend += (x + "$"));
+
+                        e.ReplyLine("$cfs$" + toSend);
+                    }
                 }
+            }
+            catch
+            {
+                Consolemanager.error("send all data");
             }
 
 
@@ -124,189 +146,249 @@ namespace FsmHost
 
         public void BroadcastMessage(string data)
         {
-            Program.server.BroadcastLine(username + "$" + data);
+            try
+            {
+                Program.server.BroadcastLine(username + "$" + data);
+            }
+            catch
+            {
+                Consolemanager.error("broadcast message");
+
+            }
+
+
         }
 
 
 
         private void createColumn(string[] data, Message e)
         {
-            columns.Add(new Column(data[1], ColumnIdCounter));
-            Console.WriteLine(currentTimeStamp() + " Column created: " + data[1]);
-            e.ReplyLine("$eid$c$" + data[2] + "$" + ColumnIdCounter.ToString());
-            BroadcastMessage(columns[^1].ToString());
-            ColumnIdCounter++;
+            try
+            {
+                columns.Add(new Column(data[1], ColumnIdCounter));
+                Console.WriteLine(currentTimeStamp() + " Column created: " + data[1]);
+                e.ReplyLine("$eid$c$" + data[2] + "$" + ColumnIdCounter.ToString());
+                BroadcastMessage(columns[^1].ToString());
+                ColumnIdCounter++;
+            }
+            catch
+            {
+                Consolemanager.error("create column");
+            }
+
         }
         private void removeColumn(string[] data)
         {
-            int delete = -1;
-            for (int i = 0; i < columns.Count; i++)
+            try
             {
-                if (Int32.Parse(data[0]) == columns[i].id)
+                int delete = -1;
+                for (int i = 0; i < columns.Count; i++)
                 {
-                    delete = i;
+                    if (Int32.Parse(data[0]) == columns[i].id)
+                    {
+                        delete = i;
+                    }
+                }
+                if (delete >= 0)
+                {
+                    Console.WriteLine(currentTimeStamp() + $" Column {columns[delete]} removed");
+                    columns.RemoveAt(delete);
+                    BroadcastMessage($"rcl${data[0]}");
                 }
             }
-            if (delete >= 0)
+            catch
             {
-                Console.WriteLine(currentTimeStamp() + $" Column {columns[delete]} removed");
-                columns.RemoveAt(delete);
-                BroadcastMessage($"rcl${data[0]}");
+                Consolemanager.error("remove column");
             }
 
         }
 
         private void createFlightstrip(string[] data, Message e)
         {
-            Column c = null;
-            foreach (Column col in columns)
+            try
             {
-                if (col.id == Int32.Parse(data[1]))
+                Column c = null;
+                foreach (Column col in columns)
                 {
-                    c = col;
+                    if (col.id == Int32.Parse(data[1]))
+                    {
+                        c = col;
+                    }
                 }
+                if (c != null)
+                {
+                    string originalID = data[0];
+                    data[0] = FlightstripIdCounter.ToString();
+
+                    c.Flightstrips.Add(data);
+                    string rawtype = data[2];
+                    string type = "";
+                    switch (rawtype)
+                    {
+                        case "I":
+                            type = "Inbound";
+                            break;
+                        case "O":
+                            type = "Outbound";
+                            break;
+                        case "V":
+                            type = "VFR";
+                            break;
+                    }
+
+                    e.ReplyLine("$eid$f$" + originalID + "$" + FlightstripIdCounter.ToString());
+                    Console.WriteLine(currentTimeStamp() + " Flightstrip created. ID: " + FlightstripIdCounter.ToString() + ", Column: " + c.name + ", Type: " + type);
+                    FlightstripIdCounter++;
+
+                    string toSend = "cfs$";
+                    Array.ForEach(data, x => toSend += (x + "$"));
+                    BroadcastMessage(toSend);
+                }
+
             }
-            if (c != null)
+            catch
             {
-                string originalID = data[0];
-                data[0] = FlightstripIdCounter.ToString();
-
-                c.Flightstrips.Add(data);
-                string rawtype = data[2];
-                string type = "";
-                switch (rawtype)
-                {
-                    case "I":
-                        type = "Inbound";
-                        break;
-                    case "O":
-                        type = "Outbound";
-                        break;
-                    case "V":
-                        type = "VFR";
-                        break;
-                }
-
-                e.ReplyLine("$eid$f$" + originalID + "$" + FlightstripIdCounter.ToString());
-                Console.WriteLine(currentTimeStamp() + " Flightstrip created. ID: " + FlightstripIdCounter.ToString() + ", Column: " + c.name + ", Type: " + type);
-                FlightstripIdCounter++;
-
-                string toSend = "cfs$";
-                Array.ForEach(data, x => toSend += (x + "$"));
-                BroadcastMessage(toSend);
+                Consolemanager.error("create flightstrip");
             }
-
-
         }
 
         private void removeFlightstrip(string[] data)
         {
-            Column col = null;
-            string[] flightstrip = null;
-
-            foreach (Column c in columns)
+            try
             {
-                if (c.id == Int32.Parse(data[1]))
+                Column col = null;
+                string[] flightstrip = null;
+
+                foreach (Column c in columns)
                 {
-                    foreach (string[] s in c.Flightstrips)
+                    if (c.id == Int32.Parse(data[1]))
                     {
-                        if (s[0] == data[0])
+                        foreach (string[] s in c.Flightstrips)
                         {
-                            Console.WriteLine(currentTimeStamp() + $" Flightstrip removed. ID: {s[0]}");
+                            if (s[0] == data[0])
+                            {
+                                Console.WriteLine(currentTimeStamp() + $" Flightstrip removed. ID: {s[0]}");
 
-                            col = c;
-                            flightstrip = s;
+                                col = c;
+                                flightstrip = s;
 
+                            }
                         }
                     }
                 }
+                if (col != null && flightstrip != null)
+                {
+                    col.Flightstrips.Remove(flightstrip);
+                    BroadcastMessage($"rfs${data[0]}${data[1]}");
+                }
             }
-            if (col != null && flightstrip != null)
+            catch
             {
-                col.Flightstrips.Remove(flightstrip);
-                BroadcastMessage($"rfs${data[0]}${data[1]}");
+                Consolemanager.error("remove flightstrip");
             }
+
+
 
         }
 
         private void moveFlightstrip(string[] data)
         {
-            //fsID;start;dest
-            int start = -1, dest = -1, fsId = -1;
-            for (int i = 0; i < columns.Count; i++)
+            try
             {
-                if (columns[i].id == Int32.Parse(data[1]))
+                //fsID;start;dest
+                int start = -1, dest = -1, fsId = -1;
+                for (int i = 0; i < columns.Count; i++)
                 {
-
-                    start = i;
-
-                    for (int j = 0; j < columns[i].Flightstrips.Count; j++)
+                    if (columns[i].id == Int32.Parse(data[1]))
                     {
-                        if (columns[i].Flightstrips[j][0] == data[0])
+
+                        start = i;
+
+                        for (int j = 0; j < columns[i].Flightstrips.Count; j++)
                         {
-                            fsId = j;
+                            if (columns[i].Flightstrips[j][0] == data[0])
+                            {
+                                fsId = j;
+                            }
                         }
                     }
+                    if (columns[i].id == Int32.Parse(data[2]))
+                    {
+                        dest = i;
+                    }
+
                 }
-                if (columns[i].id == Int32.Parse(data[2]))
+
+                columns[start].Flightstrips[fsId][1] = columns[dest].id.ToString();
+
+                if (start >= 0 && dest >= 0 && fsId >= 0)
                 {
-                    dest = i;
+                    string[] fs = columns[start].Flightstrips[fsId];
+                    columns[start].Flightstrips.RemoveAt(fsId);
+                    columns[dest].Flightstrips.Add(fs);
+                    Console.WriteLine(currentTimeStamp() + $" Flightstrip moved from {columns[start].name} to {columns[dest].name}");
+                    BroadcastMessage($"mov${data[0]}${data[1]}${data[2]}");
                 }
-
             }
-
-            columns[start].Flightstrips[fsId][1] = columns[dest].id.ToString();
-
-            if (start >= 0 && dest >= 0 && fsId >= 0)
+            catch
             {
-                string[] fs = columns[start].Flightstrips[fsId];
-                columns[start].Flightstrips.RemoveAt(fsId);
-                columns[dest].Flightstrips.Add(fs);
-                Console.WriteLine(currentTimeStamp() + $" Flightstrip moved from {columns[start].name} to {columns[dest].name}");
-                BroadcastMessage($"mov${data[0]}${data[1]}${data[2]}");
+                Consolemanager.error("move flightstrip");
             }
+
+
 
 
         }
 
         private void editFlightstrip(string[] data)
         {
-            //fsId, colId, textboxIndex, changedText
-            string oldData = "";
-            Boolean hasChanged = false;
-            foreach (Column c in columns)
+            try
             {
-                if (c.id == Int32.Parse(data[1]))
+                //fsId, colId, textboxIndex, changedText
+                string oldData = "";
+                Boolean hasChanged = false;
+                foreach (Column c in columns)
                 {
-                    foreach (string[] s in c.Flightstrips)
+                    if (c.id == Int32.Parse(data[1]))
                     {
-                        if (s[0] == data[0])
+                        foreach (string[] s in c.Flightstrips)
                         {
-                            if (s[Int32.Parse(data[2]) + 3] != data[3])
+                            if (s[0] == data[0])
                             {
-                                oldData = s[Int32.Parse(data[2]) + 3];
-                                s[Int32.Parse(data[2]) + 3] = data[3];
-                                hasChanged = true;
+                                if (s[Int32.Parse(data[2]) + 3] != data[3])
+                                {
+                                    oldData = s[Int32.Parse(data[2]) + 3];
+                                    s[Int32.Parse(data[2]) + 3] = data[3];
+                                    hasChanged = true;
+                                }
+
+
                             }
-
-
                         }
                     }
                 }
+                if (hasChanged)
+                {
+                    Console.WriteLine(currentTimeStamp() + $" Flightstrip edited: \"{oldData}\" to \"{data[3]}\"");
+                    BroadcastMessage($"edt${data[0]}${data[2]}${data[3]}");
+                }
             }
-            if (hasChanged)
+            catch
             {
-                Console.WriteLine(currentTimeStamp() + $" Flightstrip edited: \"{oldData}\" to \"{data[3]}\"");
-                BroadcastMessage($"edt${data[0]}${data[2]}${data[3]}");
+                Consolemanager.error("edit flightstrip");
             }
+
+
 
         }
 
 
         public string currentTimeStamp()
         {
+
             string timestamp = "[" + DateTime.Now.ToLongTimeString() + "]";
             return timestamp;
+
         }
 
 

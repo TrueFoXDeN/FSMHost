@@ -96,6 +96,7 @@ namespace FsmHost
                 Console.WriteLine("To list all commands, type: help");
                 Console.WriteLine("Setup finished. Server started at " + DateTime.Now.ToLongTimeString());
                 Console.WriteLine("---------------------------------------------");
+                Consolemanager.error("test");
                 while (true)
                 {
                     string line = Console.ReadLine();
@@ -174,7 +175,15 @@ namespace FsmHost
 
         private static void ClientConnected(object sender, TcpClient client)
         {
-            clients.Add(client);
+            try
+            {
+                clients.Add(client);
+            }
+            catch
+            {
+                Consolemanager.error("client connected");
+            }
+
 
         }
 
@@ -190,7 +199,7 @@ namespace FsmHost
             }
             catch
             {
-                Console.WriteLine("Error on user disconnect");
+                Consolemanager.error("user disconnect");
             }
 
 

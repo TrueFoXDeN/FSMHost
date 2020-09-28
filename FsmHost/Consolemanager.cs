@@ -15,7 +15,7 @@ namespace FsmHost
             Console.WriteLine("kick [user]              Kicks a user from the server.");
             Console.WriteLine("kickall                  Kicks every user on the server.");
             Console.WriteLine("ban [user]               Permanently bans the specified user.");
-            Console.WriteLine("banip [user]             Permanently bans the specified user including its ip.");
+            Console.WriteLine("banip [user]             Permanently bans the specified user including its ip adress.");
             Console.WriteLine("unban [user]             Unbans the specified user.");
             Console.WriteLine("listbanned               Lists all banned users.");
             Console.WriteLine("usewl [true/false]       Enables or disables the whitelist.");

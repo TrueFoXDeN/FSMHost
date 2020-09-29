@@ -57,6 +57,9 @@ namespace FsmHost
                         case "mov":
                             moveFlightstrip(splittedString.Skip(1).ToArray());
                             break;
+                        case "gco":
+                            sendClientOverview(e);
+                            break;
                     }
                 }
             }
@@ -378,6 +381,25 @@ namespace FsmHost
                 Consolemanager.error("edit flightstrip");
             }
 
+
+
+        }
+
+        private void sendClientOverview(Message e)
+        {
+            try
+            {
+                string msg = "";
+                foreach (string user in usernames)
+                {
+                    msg += $"${user}";
+                }
+                e.ReplyLine($"$gco{msg}");
+            }
+            catch
+            {
+                Consolemanager.error("send client overview");
+            }
 
 
         }

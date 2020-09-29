@@ -97,7 +97,7 @@ namespace FsmHost
 
                 }
 
-                return "Whitelist has been enabled";
+                return "Whitelist has been enabled.";
             }
             else
             {
@@ -106,7 +106,7 @@ namespace FsmHost
                 //    File.Delete("whitelist.txt");
                 //}
 
-                return "Whitelist has been disabled";
+                return "Whitelist has been disabled.";
             }
 
         }

@@ -158,7 +158,7 @@ namespace FsmHost
             for (int i = 0; i < Program.manager.usernames.Count; i++)
             {
                 Program.manager.username = Program.manager.usernames[i];
-                Program.manager.BroadcastMessage($"kck${Program.manager.usernames[i]}");
+                Program.manager.BroadcastMessage($"kck${Program.manager.usernames[i]}$0");
                 Console.WriteLine($"{Program.manager.usernames[i]} has been kicked from the server.");
             }
 
@@ -246,7 +246,9 @@ namespace FsmHost
                     Manager.ColumnIdCounter = 0;
                     Manager.FlightstripIdCounter = 0;
                     Program.manager.columns.Clear();
+                    Program.manager.BroadcastMessage($"rad${s[1]}");
                     Program.manager.BroadcastMessage($"gad${s[1]}");
+
                     Console.WriteLine($"Recovering data from {s[1]}...");
                 }
                 else
@@ -284,6 +286,15 @@ namespace FsmHost
                 Console.WriteLine("Enter: recoverfrom [user] to restore the data.");
             }
             Console.WriteLine("#############################################");
+            try
+            {
+                Program.manager.username = "";
+                Program.manager.BroadcastMessage($"err$Fatal Server Error! Please check the server console.");
+            }
+            catch
+            {
+
+            }
         }
         public static void notvalid()
         {

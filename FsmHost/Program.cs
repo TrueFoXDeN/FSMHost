@@ -96,7 +96,7 @@ namespace FsmHost
                 Console.WriteLine("To list all commands, type: help");
                 Console.WriteLine("Setup finished. Server started at " + DateTime.Now.ToLongTimeString());
                 Console.WriteLine("---------------------------------------------");
-                Consolemanager.error("test");
+                
                 while (true)
                 {
                     string line = Console.ReadLine();

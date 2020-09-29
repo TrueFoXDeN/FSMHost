@@ -79,7 +79,7 @@ namespace FsmHost
                 var lines = File.ReadAllLines("blacklist.txt");
                 foreach (string s in lines)
                 {
-                    return lines.Contains(ip);
+                    if (s.Contains(ip)) return true;
                 }
                 return false;
             }

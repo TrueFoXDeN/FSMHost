@@ -28,12 +28,12 @@ namespace FsmHost
         {
             try
             {
+
                 string[] splittedString = receivedData.Split('$');
                 if (splittedString.Length > 2)
                 {
                     username = splittedString[0];
                     splittedString = splittedString.Skip(1).ToArray();
-
                     switch (splittedString[0])
                     {
                         case "con":
@@ -78,10 +78,13 @@ namespace FsmHost
         {
             try
             {
-                string ip = Program.clients[0].Client.RemoteEndPoint.ToString().Split(':')[0];
                 string username = data[1];
-
                 usernames.Add(data[1]);
+                int index = usernames.IndexOf(data[1]);
+                string ip = Program.clients[index].Client.RemoteEndPoint.ToString().Split(':')[0];
+
+
+
                 if (Filemanager.isBanned(data[1]) || Filemanager.isIpBanned(ip))
                 {
                     e.ReplyLine($"$kck${username}$1");

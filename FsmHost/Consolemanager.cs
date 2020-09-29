@@ -91,7 +91,8 @@ namespace FsmHost
 
         public static void listbanned()
         {
-            if (Filemanager.bannedUsers() == null)
+            var banned = Filemanager.bannedUsers();
+            if (banned == null || banned.Length == 0)
             {
                 Console.WriteLine("No users were banned.");
             }
@@ -99,7 +100,7 @@ namespace FsmHost
             {
                 foreach (string s in Filemanager.bannedUsers())
                 {
-                    Console.WriteLine(s.Replace(";", ""));
+                    Console.WriteLine(s.Replace(";", " "));
                 }
             }
 
@@ -181,9 +182,18 @@ namespace FsmHost
         {
             if (s.Length == 2)
             {
+                if (Program.manager.usernames.Contains(s[1]))
+                {
+                    int index = Program.manager.usernames.IndexOf(s[1]);
+                    string ip = Program.clients[index].Client.RemoteEndPoint.ToString().Split(':')[0];
+                    Console.WriteLine(Filemanager.blacklist(s[1], ip));
+                    kick(s, 1);
+                }
+                else
+                {
+                    Console.WriteLine($"User {s[1]} is not connected.");
+                }
 
-                Console.WriteLine(Filemanager.blacklist(s[1], "127.0.0.1"));
-                kick(s, 1);
             }
             else
             {

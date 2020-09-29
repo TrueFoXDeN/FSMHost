@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters;
 using System.Text;
 
 namespace FsmHost
@@ -97,6 +96,7 @@ namespace FsmHost
                 Console.WriteLine("To list all commands, type: help");
                 Console.WriteLine("Setup finished. Server started at " + DateTime.Now.ToLongTimeString());
                 Console.WriteLine("---------------------------------------------");
+                
                 while (true)
                 {
                     string line = Console.ReadLine();
@@ -107,6 +107,12 @@ namespace FsmHost
                         {
                             case "help":
                                 Consolemanager.help();
+                                break;
+                            case "msg":
+                                Consolemanager.msg(commands);
+                                break;
+                            case "msguser":
+                                Consolemanager.msguser(commands);
                                 break;
                             case "listuser":
                                 Consolemanager.listuser();
@@ -164,28 +170,38 @@ namespace FsmHost
         public static void dataReceived(object sender, Message e)
         {
             manager.processReceivedData(e.MessageString, e);
-           
+
         }
 
         private static void ClientConnected(object sender, TcpClient client)
         {
-            clients.Add(client);
-            
+            try
+            {
+                clients.Add(client);
+            }
+            catch
+            {
+                Consolemanager.error("client connected");
+            }
+
+
         }
 
 
         private static void ClientDisconnected(object sender, TcpClient client)
         {
-            int index = clients.IndexOf(client);
-            Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
-            manager.usernames.RemoveAt(index);
-            clients.Remove(client);
-
-            List<IPAddress> clientsList = new List<IPAddress>();
-            clientsList = server.GetListeningIPs();
-            for (int i = 0; i < clientsList.Count; i++){
-                Debug.WriteLine(clientsList[i]);
+            try
+            {
+                int index = clients.IndexOf(client);
+                Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
+                manager.usernames.RemoveAt(index);
+                clients.Remove(client);
             }
+            catch
+            {
+                Consolemanager.error("user disconnect");
+            }
+
 
         }
 

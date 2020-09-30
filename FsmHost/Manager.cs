@@ -54,6 +54,7 @@ namespace FsmHost
                         case "edt":
                             editFlightstrip(splittedString.Skip(1).ToArray());
                             break;
+                           
                         case "mov":
                             moveFlightstrip(splittedString.Skip(1).ToArray());
                             break;
@@ -117,8 +118,6 @@ namespace FsmHost
             {
                 Consolemanager.error("connect client");
             }
-
-
 
         }
 

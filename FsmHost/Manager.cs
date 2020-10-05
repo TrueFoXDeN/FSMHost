@@ -56,7 +56,6 @@ namespace FsmHost
                         case "efs":
                             editFlightstripStatus(splittedString.Skip(1).ToArray());
                             break;
-                           
                         case "mov":
                             moveFlightstrip(splittedString.Skip(1).ToArray());
                             break;
@@ -409,17 +408,12 @@ namespace FsmHost
                             {
                                 oldData = s[11];
                                 s[11] = data[3];
+                                s[^1] = data[4];
 
-                                //if (s[Int32.Parse(data[2]) + 3] != data[3])
-                                //{
-                                //    oldData = s[Int32.Parse(data[2]) + 3];
-                                //    s[Int32.Parse(data[2]) + 3] = data[3];
-                                //    hasChanged = true;
-                                //}
                                 if(oldData != data[3])
                                 {
                                     Console.WriteLine(currentTimeStamp() + $" Flightstrip edited: \"{oldData}\" to \"{data[3]}\"");
-                                    BroadcastMessage($"efs${data[0]}${data[1]}${data[2]}");
+                                    BroadcastMessage($"efs${data[0]}${data[1]}${data[2]}${data[4]}");
                                 }
 
                                 break;

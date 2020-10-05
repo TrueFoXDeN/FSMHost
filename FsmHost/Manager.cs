@@ -28,7 +28,6 @@ namespace FsmHost
         {
             try
             {
-
                 string[] splittedString = receivedData.Split('$');
                 if (splittedString.Length > 2)
                 {
@@ -53,6 +52,9 @@ namespace FsmHost
                             break;
                         case "edt":
                             editFlightstrip(splittedString.Skip(1).ToArray());
+                            break;
+                        case "efs":
+                            editFlightstripStatus(splittedString.Skip(1).ToArray());
                             break;
                            
                         case "mov":
@@ -160,8 +162,6 @@ namespace FsmHost
                 Consolemanager.error("broadcast message");
 
             }
-
-
         }
 
 
@@ -382,9 +382,51 @@ namespace FsmHost
             {
                 Consolemanager.error("edit flightstrip");
             }
+        }
 
+        private void editFlightstripStatus(string[] data)
+        {
+            try
+            {
+                //fsId, colId, direction, changedText
+                string oldData = "";
+                //Boolean hasChanged = false;
+                foreach (Column c in columns)
+                {
+                    if (c.id == Int32.Parse(data[1]))
+                    {
+                        foreach (string[] s in c.Flightstrips)
+                        {
+                            if (s[0] == data[0])
+                            {
+                                oldData = s[11];
+                                s[11] = data[3];
 
+                                //if (s[Int32.Parse(data[2]) + 3] != data[3])
+                                //{
+                                //    oldData = s[Int32.Parse(data[2]) + 3];
+                                //    s[Int32.Parse(data[2]) + 3] = data[3];
+                                //    hasChanged = true;
+                                //}
+                                if(oldData != data[3])
+                                {
+                                    Console.WriteLine(currentTimeStamp() + $" Flightstrip edited: \"{oldData}\" to \"{data[3]}\"");
+                                    BroadcastMessage($"efs${data[0]}${data[1]}${data[2]}");
+                                }
 
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                    
+                
+            }
+            catch
+            {
+                Consolemanager.error("edit flightstripStatus");
+            }
         }
 
         private void sendClientOverview(Message e)

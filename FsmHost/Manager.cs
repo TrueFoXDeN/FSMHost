@@ -79,21 +79,28 @@ namespace FsmHost
             try
             {
                 string username = data[1];
-                usernames.Add(data[1]);
-                int index = usernames.IndexOf(data[1]);
+                Boolean isAlreadyConnected = usernames.Contains(username);
+
+                usernames.Add(username);
+                if (isAlreadyConnected)
+                {
+                    e.ReplyLine($"$kck${username}$3");
+                }
+
+
+                int index = usernames.IndexOf(username);
                 string ip = Program.clients[index].Client.RemoteEndPoint.ToString().Split(':')[0];
 
 
-
-                if (Filemanager.isBanned(data[1]) || Filemanager.isIpBanned(ip))
+                if (Filemanager.isBanned(username) || Filemanager.isIpBanned(ip))
                 {
                     e.ReplyLine($"$kck${username}$1");
+                    return;
                 }
-                else if (useWhitelist && !Filemanager.isOnWhitelist(data[1]))
+                else if (useWhitelist && !Filemanager.isOnWhitelist(username))
                 {
-
                     e.ReplyLine($"$kck${username}$2");
-
+                    return;
                 }
                 else
                 {
@@ -110,7 +117,7 @@ namespace FsmHost
                         sendAllData(e);
                     }
 
-                    Console.WriteLine(currentTimeStamp() + " User connected: " + data[1]);
+                    Console.WriteLine(currentTimeStamp() + " User connected: " + username);
                 }
             }
             catch

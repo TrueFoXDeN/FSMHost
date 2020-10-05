@@ -88,6 +88,7 @@ namespace FsmHost
                 if (isAlreadyConnected)
                 {
                     e.ReplyLine($"$kck${username}$3");
+                    return;
                 }
 
 

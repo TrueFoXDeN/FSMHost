@@ -1,0 +1,15 @@
+G:\Programmierung\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\linux-x64\FsmHost
+G:\Programmierung\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\linux-x64\FsmHost.deps.json
+G:\Programmierung\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\linux-x64\FsmHost.runtimeconfig.json
+G:\Programmierung\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\linux-x64\FsmHost.runtimeconfig.dev.json
+G:\Programmierung\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\linux-x64\FsmHost.dll
+G:\Programmierung\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\linux-x64\FsmHost.pdb
+G:\Programmierung\source\repos\FsmHost\FsmHost\bin\Release\netcoreapp3.1\linux-x64\SimpleTCP.dll
+G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\linux-x64\FsmHost.AssemblyInfoInputs.cache
+G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\linux-x64\FsmHost.AssemblyInfo.cs
+G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\linux-x64\FsmHost.csproj.CoreCompileInputs.cache
+G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\linux-x64\FsmHost.csproj.CopyComplete
+G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\linux-x64\FsmHost.dll
+G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\linux-x64\FsmHost.pdb
+G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\linux-x64\FsmHost.genruntimeconfig.cache
+G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\linux-x64\FsmHost.csprojAssemblyReference.cache

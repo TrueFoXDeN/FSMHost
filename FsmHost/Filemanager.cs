@@ -31,12 +31,14 @@ namespace FsmHost
         }
         public static string removeFromBlacklist(string user, string ip)
         {
+            Boolean removed = isBanned(user) || isIpBanned(ip);
             if (File.Exists("blacklist.txt"))
             {
                 File.WriteAllLines("blacklist.txt", File.ReadLines("blacklist.txt")
                     .Where(l => !(user != "" ? l.Contains(user) : ip != "" ? l.Contains(ip) : false)).ToList());
             }
-            return $"{user} has been unbanned from the server.";
+            if(removed) return $"{user} has been unbanned from the server.";
+            else return $"{user} was not banned.";
 
         }
 
@@ -101,11 +103,6 @@ namespace FsmHost
             }
             else
             {
-                //if (File.Exists("whitelist.txt"))
-                //{
-                //    File.Delete("whitelist.txt");
-                //}
-
                 return "Whitelist has been disabled.";
             }
 
@@ -132,12 +129,16 @@ namespace FsmHost
 
         public static string removefromwl(string user)
         {
+            Boolean onWhitelist = isOnWhitelist(user);
             if (File.Exists("whitelist.txt"))
             {
+                
                 File.WriteAllLines("whitelist.txt", File.ReadLines("whitelist.txt")
                     .Where(l => !(user != "" ? l.Contains(user) : false)).ToList());
             }
-            return $"{user} has been removed from the whitelist.";
+            if (onWhitelist) return $"{user} has been removed from the whitelist.";
+            else return $"{user} was not on the whitelist.";
+
         }
       
         public static Boolean isOnWhitelist(string user)

@@ -280,7 +280,10 @@ namespace FsmHost
             Program.manager.columns.Clear();
             Console.WriteLine("Data has been cleared.");
             Program.manager.username = "";
-            Program.isFirstConnection = true;
+            if (Program.clients.Count == 0)
+            {
+                Program.isFirstConnection = true;
+            }
             Program.manager.BroadcastMessage("rad");
         }
         public static void error(string s)

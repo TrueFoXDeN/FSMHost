@@ -50,3 +50,5 @@ G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost
 G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.dll
 G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.pdb
 G:\Programmierung\source\repos\FsmHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.genruntimeconfig.cache
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Release\netcoreapp3.1\SimpleTCP.dll
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Release\netcoreapp3.1\FsmHost.csproj.CopyComplete

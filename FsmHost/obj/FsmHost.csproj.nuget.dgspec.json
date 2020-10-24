@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj": {}
+    "G:\\Programmierung\\source\\repos\\FsmHost\\FsmHost\\FsmHost.csproj": {}
   },
   "projects": {
-    "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj": {
+    "G:\\Programmierung\\source\\repos\\FsmHost\\FsmHost\\FsmHost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
+        "projectUniqueName": "G:\\Programmierung\\source\\repos\\FsmHost\\FsmHost\\FsmHost.csproj",
         "projectName": "FsmHost",
-        "projectPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
-        "packagesPath": "C:\\Users\\Laurenz\\.nuget\\packages\\",
-        "outputPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\obj\\",
+        "projectPath": "G:\\Programmierung\\source\\repos\\FsmHost\\FsmHost\\FsmHost.csproj",
+        "packagesPath": "C:\\Users\\Ctroi\\.nuget\\packages\\",
+        "outputPath": "G:\\Programmierung\\source\\repos\\FsmHost\\FsmHost\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Laurenz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ctroi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

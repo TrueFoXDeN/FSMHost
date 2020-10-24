@@ -72,11 +72,8 @@ namespace FsmHost
             {
                 Consolemanager.error("process data");
             }
-
-
-
-
         }
+
 
 
         private void connectClient(string[] data, Message e)

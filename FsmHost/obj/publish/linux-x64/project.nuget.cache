@@ -1,18 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "HXzghxF7hcGyfnxE8bXMrwK31EYT6kh+30UHAJHRuKrlVlNZCzohEC10eASCT6xhfR3kWKoCmVop93znOIpr7w==",
+  "dgSpecHash": "AD6YrbVyaG4FP4ViCY/gYkC2EUSy+60yKbih+YxDLELRS50tQXjuayQkXv4NISpHvxNImExZHLCnP6v5UCwQRA==",
   "success": true,
-  "projectFilePath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
+  "projectFilePath": "G:\\Programmierung\\source\\repos\\FsmHost\\FsmHost\\FsmHost.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Laurenz\\.nuget\\packages\\simpletcp\\1.0.24\\simpletcp.1.0.24.nupkg.sha512",
-    "C:\\Users\\Laurenz\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.1.8\\microsoft.netcore.app.host.linux-x64.3.1.8.nupkg.sha512"
+    "C:\\Users\\Ctroi\\.nuget\\packages\\simpletcp\\1.0.24\\simpletcp.1.0.24.nupkg.sha512",
+    "C:\\Users\\Ctroi\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.1.8\\microsoft.netcore.app.host.linux-x64.3.1.8.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Das Paket \"SimpleTCP 1.0.24\" wurde nicht mit dem Projektzielframework \".NETCoreApp,Version=v3.1\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
+      "message": "Package 'SimpleTCP 1.0.24' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
       "libraryId": "SimpleTCP",
       "targetGraphs": [
         ".NETCoreApp,Version=v3.1"

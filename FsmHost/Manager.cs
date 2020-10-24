@@ -35,8 +35,14 @@ namespace FsmHost
                     splittedString = splittedString.Skip(1).ToArray();
                     switch (splittedString[0])
                     {
+                        
+
                         case "con":
                             connectClient(splittedString, e);
+                            break;
+                        case "gad":
+                            Debug.WriteLine("GAD");
+                            sendAllData(e);
                             break;
                         case "ccl":
                             createColumn(splittedString, e);

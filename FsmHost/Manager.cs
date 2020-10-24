@@ -62,6 +62,9 @@ namespace FsmHost
                         case "gco":
                             sendClientOverview(e);
                             break;
+                        case "pos":
+                            editFlightstripPosition(splittedString.Skip(1).ToArray());
+                            break;
                     }
                 }
             }
@@ -175,8 +178,8 @@ namespace FsmHost
             try
             {
                 columns.Add(new Column(data[1], ColumnIdCounter));
-                Console.WriteLine(currentTimeStamp() + " Column created: " + data[1] + " "+data[2]);
-                e.ReplyLine("$eid$c$" + data[2] + "$" + ColumnIdCounter.ToString());
+                Console.WriteLine(currentTimeStamp() + " Column created: " + data[1]);
+                e.ReplyLine("$eid$c$" + data[2] + "$" + ColumnIdCounter.ToString() + "$" + data[3]);
                 BroadcastMessage(columns[^1].ToString());
                 ColumnIdCounter++;
             }
@@ -200,7 +203,7 @@ namespace FsmHost
                 }
                 if (delete >= 0)
                 {
-                    Console.WriteLine(currentTimeStamp() + $" Column {columns[delete]} removed");
+                    Console.WriteLine(currentTimeStamp() + $" Column removed: {columns[delete].name}");
                     columns.RemoveAt(delete);
                     BroadcastMessage($"rcl${data[0]}");
                 }
@@ -245,7 +248,7 @@ namespace FsmHost
                             break;
                     }
 
-                    e.ReplyLine("$eid$f$" + originalID + "$" + FlightstripIdCounter.ToString());
+                    e.ReplyLine("$eid$f$" + c.id + "$" + originalID + "$" + FlightstripIdCounter.ToString());
                     Console.WriteLine(currentTimeStamp() + " Flightstrip created. ID: " + FlightstripIdCounter.ToString() + ", Column: " + c.name + ", Type: " + type);
                     FlightstripIdCounter++;
 
@@ -410,7 +413,7 @@ namespace FsmHost
                                 s[11] = data[3];
                                 s[^1] = data[4];
 
-                                if(oldData != data[3])
+                                if (oldData != data[3])
                                 {
                                     Console.WriteLine(currentTimeStamp() + $" Flightstrip edited: \"{oldData}\" to \"{data[3]}\"");
                                     BroadcastMessage($"efs${data[0]}${data[1]}${data[2]}${data[4]}");
@@ -421,9 +424,9 @@ namespace FsmHost
                         }
                     }
                 }
-                
-                    
-                
+
+
+
             }
             catch
             {
@@ -445,6 +448,35 @@ namespace FsmHost
             catch
             {
                 Consolemanager.error("send client overview");
+            }
+
+
+        }
+
+        private void editFlightstripPosition(string[] data)
+        {
+            try
+            {
+                foreach (Column c in columns)
+                {
+                    if (c.id.ToString() == data[0])
+                    {
+                        for (int i = 0; i < c.Flightstrips.Count; i++)
+                        {
+                            if (c.Flightstrips[i][0] == data[1])
+                            {
+                                String[] temp = c.Flightstrips[i];
+                                c.Flightstrips.Remove(c.Flightstrips[i]);
+                                c.Flightstrips.Insert(Int32.Parse(data[2]), temp);
+                            }
+                        }
+                    }
+
+                }
+            }
+            catch
+            {
+                Consolemanager.error("flightstrip position change");
             }
 
 

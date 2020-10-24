@@ -12,7 +12,7 @@
         }
       }
     },
-    ".NETCoreApp,Version=v3.1/linux-x64": {
+    ".NETCoreApp,Version=v3.1/win-x64": {
       "SimpleTCP/1.0.24": {
         "type": "package",
         "compile": {
@@ -53,7 +53,7 @@
       "projectName": "FsmHost",
       "projectPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
       "packagesPath": "C:\\Users\\Laurenz\\.nuget\\packages\\",
-      "outputPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\obj\\publish\\linux-x64\\",
+      "outputPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\obj\\publish\\win-x64\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Laurenz\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -95,12 +95,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.NETCore.App.Host.linux-x64",
-            "version": "[3.1.8, 3.1.8]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
@@ -110,7 +104,7 @@
       }
     },
     "runtimes": {
-      "linux-x64": {
+      "win-x64": {
         "#import": []
       }
     }

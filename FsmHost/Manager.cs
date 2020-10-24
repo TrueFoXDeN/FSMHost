@@ -175,7 +175,7 @@ namespace FsmHost
             try
             {
                 columns.Add(new Column(data[1], ColumnIdCounter));
-                Console.WriteLine(currentTimeStamp() + " Column created: " + data[1]);
+                Console.WriteLine(currentTimeStamp() + " Column created: " + data[1] + " "+data[2]);
                 e.ReplyLine("$eid$c$" + data[2] + "$" + ColumnIdCounter.ToString());
                 BroadcastMessage(columns[^1].ToString());
                 ColumnIdCounter++;
@@ -306,8 +306,10 @@ namespace FsmHost
             {
                 //fsID;start;dest
                 int start = -1, dest = -1, fsId = -1;
+                //Console.WriteLine("Data to check: "+data[0] + " " +data[1]+ " "+data[2]);
                 for (int i = 0; i < columns.Count; i++)
                 {
+                    //Console.WriteLine("Column " + i + " ID: " + columns[i].id);
                     if (columns[i].id == Int32.Parse(data[1]))
                     {
 
@@ -315,6 +317,7 @@ namespace FsmHost
 
                         for (int j = 0; j < columns[i].Flightstrips.Count; j++)
                         {
+                            //Console.WriteLine("FS id: " + columns[i].Flightstrips[j][0]);
                             if (columns[i].Flightstrips[j][0] == data[0])
                             {
                                 fsId = j;

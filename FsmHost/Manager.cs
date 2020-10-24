@@ -466,8 +466,38 @@ namespace FsmHost
                             if (c.Flightstrips[i][0] == data[1])
                             {
                                 String[] temp = c.Flightstrips[i];
+                                int indexOfFs = c.Flightstrips.IndexOf(temp);
+                                int position = Int32.Parse(data[2]);
                                 c.Flightstrips.Remove(c.Flightstrips[i]);
-                                c.Flightstrips.Insert(Int32.Parse(data[2]), temp);
+
+                                if(position < indexOfFs)
+                                {
+                                    if(position >= c.Flightstrips.Count)
+                                    {
+                                        c.Flightstrips.Insert(position-1, temp);
+                                    }
+                                    else
+                                    {
+                                        c.Flightstrips.Insert(position, temp);
+                                    }
+                                }
+
+                             
+
+                                else
+                                {
+                                    if (position > c.Flightstrips.Count)
+                                    {
+                                        c.Flightstrips.Insert(position - 1, temp);
+                                    }
+                                    else
+                                    {
+                                        c.Flightstrips.Insert(position - 1, temp);
+                                    }
+                                }
+                                Console.WriteLine($"{currentTimeStamp()} Flightstrip {c.Flightstrips[c.Flightstrips.IndexOf(temp)][0]} moved from position {indexOfFs} to {c.Flightstrips.IndexOf(temp)}");
+                                BroadcastMessage($"pos${data[0]}${data[1]}${data[2]}");
+
                             }
                         }
                     }

@@ -179,9 +179,9 @@ namespace FsmHost
             {
                 clients.Add(client);
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("client connected");
+                Consolemanager.error("client connected", ex);
             }
 
 
@@ -197,9 +197,9 @@ namespace FsmHost
                 manager.usernames.RemoveAt(index);
                 clients.Remove(client);
             }
-            catch
+            catch(Exception ex)
             {
-                Consolemanager.error("user disconnect");
+                Consolemanager.error("user disconnect", ex);
             }
 
 

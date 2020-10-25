@@ -286,9 +286,9 @@ namespace FsmHost
             }
             Program.manager.BroadcastMessage("rad");
         }
-        public static void error(string s)
+        public static void error(string s, Exception ex)
         {
-            Console.WriteLine($"#############################################\nError occured during [{s}]");
+            Console.WriteLine($"\n#############################################\nError occured during [{s}]");
             if (Program.manager.usernames.Count == 0)
             {
                 Console.WriteLine("Server restart is recommended.");
@@ -299,15 +299,20 @@ namespace FsmHost
                 Console.WriteLine("Server restart is recommended.");
                 Console.WriteLine("Enter: recoverfrom [user] to restore the data.");
             }
-            Console.WriteLine("#############################################");
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("Stacktrace:\n"+ex+"\n");
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("#############################################\n");
             try
             {
                 Program.manager.username = "";
                 Program.manager.BroadcastMessage($"err$Fatal Server Error! Please check the server console.");
             }
-            catch
+            catch 
             {
-
+                Console.WriteLine("----------------------------------");
+                Console.WriteLine("Unable to notify clients. Restart server!");
+                Console.WriteLine("----------------------------------");
             }
         }
         public static void notvalid()

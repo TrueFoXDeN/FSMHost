@@ -74,9 +74,9 @@ namespace FsmHost
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("process data");
+                Consolemanager.error("process data", ex);
             }
         }
 
@@ -129,9 +129,9 @@ namespace FsmHost
                     Console.WriteLine(currentTimeStamp() + " User connected: " + username);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("connect client");
+                Consolemanager.error("connect client", ex);
             }
 
         }
@@ -156,9 +156,9 @@ namespace FsmHost
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("send all data");
+                Consolemanager.error("send all data", ex);
             }
 
 
@@ -170,9 +170,9 @@ namespace FsmHost
             {
                 Program.server.BroadcastLine(username + "$" + data);
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("broadcast message");
+                Consolemanager.error("broadcast message", ex);
 
             }
         }
@@ -189,9 +189,9 @@ namespace FsmHost
                 BroadcastMessage(columns[^1].ToString());
                 ColumnIdCounter++;
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("create column");
+                Consolemanager.error("create column", ex);
             }
 
         }
@@ -214,9 +214,9 @@ namespace FsmHost
                     BroadcastMessage($"rcl${data[0]}");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("remove column");
+                Consolemanager.error("remove column", ex);
             }
 
         }
@@ -264,9 +264,9 @@ namespace FsmHost
                 }
 
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("create flightstrip");
+                Consolemanager.error("create flightstrip", ex);
             }
         }
 
@@ -300,9 +300,9 @@ namespace FsmHost
                     BroadcastMessage($"rfs${data[0]}${data[1]}");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("remove flightstrip");
+                Consolemanager.error("remove flightstrip", ex);
             }
 
 
@@ -351,9 +351,9 @@ namespace FsmHost
                     BroadcastMessage($"mov${data[0]}${data[1]}${data[2]}");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("move flightstrip");
+                Consolemanager.error("move flightstrip", ex);
             }
 
 
@@ -394,9 +394,9 @@ namespace FsmHost
                     BroadcastMessage($"edt${data[0]}${data[2]}${data[3]}");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("edit flightstrip");
+                Consolemanager.error("edit flightstrip", ex);
             }
         }
 
@@ -434,9 +434,9 @@ namespace FsmHost
 
 
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("edit flightstripStatus");
+                Consolemanager.error("edit flightstripStatus", ex);
             }
         }
 
@@ -451,9 +451,9 @@ namespace FsmHost
                 }
                 e.ReplyLine($"$gco{msg}");
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("send client overview");
+                Consolemanager.error("send client overview", ex);
             }
 
 
@@ -510,9 +510,9 @@ namespace FsmHost
 
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Consolemanager.error("flightstrip position change");
+                Consolemanager.error("flightstrip position change", ex);
             }
 
 

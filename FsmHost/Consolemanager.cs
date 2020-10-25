@@ -310,9 +310,9 @@ namespace FsmHost
             }
             catch 
             {
-                Console.WriteLine("----------------------------------");
+                Console.WriteLine("---------------------------------------------");
                 Console.WriteLine("Unable to notify clients. Restart server!");
-                Console.WriteLine("----------------------------------");
+                Console.WriteLine("---------------------------------------------");
             }
         }
         public static void notvalid()

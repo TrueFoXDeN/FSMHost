@@ -35,8 +35,14 @@ namespace FsmHost
                     splittedString = splittedString.Skip(1).ToArray();
                     switch (splittedString[0])
                     {
+                        
+
                         case "con":
                             connectClient(splittedString, e);
+                            break;
+                        case "gad":
+                            Debug.WriteLine("GAD");
+                            sendAllData(e);
                             break;
                         case "ccl":
                             createColumn(splittedString, e);
@@ -309,8 +315,10 @@ namespace FsmHost
             {
                 //fsID;start;dest
                 int start = -1, dest = -1, fsId = -1;
+                //Console.WriteLine("Data to check: "+data[0] + " " +data[1]+ " "+data[2]);
                 for (int i = 0; i < columns.Count; i++)
                 {
+                    //Console.WriteLine("Column " + i + " ID: " + columns[i].id);
                     if (columns[i].id == Int32.Parse(data[1]))
                     {
 
@@ -318,6 +326,7 @@ namespace FsmHost
 
                         for (int j = 0; j < columns[i].Flightstrips.Count; j++)
                         {
+                            //Console.WriteLine("FS id: " + columns[i].Flightstrips[j][0]);
                             if (columns[i].Flightstrips[j][0] == data[0])
                             {
                                 fsId = j;
@@ -463,8 +472,38 @@ namespace FsmHost
                             if (c.Flightstrips[i][0] == data[1])
                             {
                                 String[] temp = c.Flightstrips[i];
+                                int indexOfFs = c.Flightstrips.IndexOf(temp);
+                                int position = Int32.Parse(data[2]);
                                 c.Flightstrips.Remove(c.Flightstrips[i]);
-                                c.Flightstrips.Insert(Int32.Parse(data[2]), temp);
+
+                                if(position < indexOfFs)
+                                {
+                                    if(position >= c.Flightstrips.Count)
+                                    {
+                                        c.Flightstrips.Insert(position-1, temp);
+                                    }
+                                    else
+                                    {
+                                        c.Flightstrips.Insert(position, temp);
+                                    }
+                                }
+
+                             
+
+                                else
+                                {
+                                    if (position > c.Flightstrips.Count)
+                                    {
+                                        c.Flightstrips.Insert(position - 1, temp);
+                                    }
+                                    else
+                                    {
+                                        c.Flightstrips.Insert(position - 1, temp);
+                                    }
+                                }
+                                Console.WriteLine($"{currentTimeStamp()} Flightstrip {c.Flightstrips[c.Flightstrips.IndexOf(temp)][0]} moved from position {indexOfFs} to {c.Flightstrips.IndexOf(temp)}");
+                                BroadcastMessage($"pos${data[0]}${data[1]}${data[2]}");
+
                             }
                         }
                     }

@@ -16,6 +16,7 @@ namespace FsmHost
         public static bool isFirstConnection = true;
         public static SimpleTcpServer server;
         public static List<TcpClient> clients = new List<TcpClient>();
+        public static int port = 13000;
         static void Main(string[] args)
         {
             manager = new Manager();
@@ -27,7 +28,6 @@ namespace FsmHost
         private static void SetupServer()
         {
             char changePort = 'x';
-            int port = 13000;
             string stringPort = string.Empty;
             Console.Title = "FlightStrip Manager Server";
             Console.WriteLine("Setup Server:");
@@ -76,11 +76,8 @@ namespace FsmHost
             Console.WriteLine("Setting up server...");
             try
             {
-                server = new SimpleTcpServer().Start(port);
-                server.Delimiter = 0x25;
-                server.DelimiterDataReceived += dataReceived;
-                server.ClientDisconnected += ClientDisconnected;
-                server.ClientConnected += ClientConnected;
+                startServer();
+
                 Console.WriteLine();
                 Console.WriteLine("Server is reachable under the following IP-addresses:");
                 string hostName = Dns.GetHostName();
@@ -96,7 +93,7 @@ namespace FsmHost
                 Console.WriteLine("To list all commands, type: help");
                 Console.WriteLine("Setup finished. Server started at " + DateTime.Now.ToLongTimeString());
                 Console.WriteLine("---------------------------------------------");
-                
+
                 while (true)
                 {
                     string line = Console.ReadLine();
@@ -167,6 +164,15 @@ namespace FsmHost
             }
         }
 
+        public static void startServer()
+        {
+            server = new SimpleTcpServer().Start(port);
+            server.Delimiter = 0x25;
+            server.DelimiterDataReceived += dataReceived;
+            server.ClientDisconnected += ClientDisconnected;
+            server.ClientConnected += ClientConnected;
+        }
+
         public static void dataReceived(object sender, Message e)
         {
             manager.processReceivedData(e.MessageString, e);
@@ -192,12 +198,16 @@ namespace FsmHost
         {
             try
             {
-                int index = clients.IndexOf(client);
-                Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
-                manager.usernames.RemoveAt(index);
-                clients.Remove(client);
+                if (clients.Count != 0)
+                {
+                    int index = clients.IndexOf(client);
+                    Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
+                    manager.usernames.RemoveAt(index);
+                    clients.Remove(client);
+                }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Consolemanager.error("user disconnect", ex);
             }

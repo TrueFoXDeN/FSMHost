@@ -15,7 +15,7 @@ namespace FsmHost
             Console.WriteLine("kick [user]              Kicks a user from the server.");
             Console.WriteLine("kickall                  Kicks every user on the server.");
             Console.WriteLine("ban [user]               Permanently bans the specified user.");
-            Console.WriteLine("banip [user]             Permanently bans the specified user including its ip adress.");
+            Console.WriteLine("banip [user]             Permanently bans the specified user including its ip address.");
             Console.WriteLine("unban [user]             Unbans the specified user.");
             Console.WriteLine("listbanned               Lists all banned users.");
             Console.WriteLine("usewl [true/false]       Enables or disables the whitelist.");
@@ -274,17 +274,22 @@ namespace FsmHost
         }
         public static void reset()
         {
-            //Console.WriteLine(Filemanager.reset()); ;
             Manager.ColumnIdCounter = 0;
             Manager.FlightstripIdCounter = 0;
             Program.manager.columns.Clear();
-            Console.WriteLine("Data has been cleared.");
             Program.manager.username = "";
-            if (Program.clients.Count == 0)
-            {
-                Program.isFirstConnection = true;
-            }
             Program.manager.BroadcastMessage("rad");
+            kickall();
+
+            //Program.server.Stop();
+            //Program.startServer();
+            //
+            Program.clients.Clear();
+            Program.manager.usernames.Clear();
+            //Program.server = new SimpleTcpServer().Start(port);
+
+            Program.isFirstConnection = true;
+            Console.WriteLine("Data has been cleared.");
         }
         public static void error(string s, Exception ex)
         {

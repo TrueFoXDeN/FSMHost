@@ -1,0 +1,14 @@
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Release\netcoreapp3.1\win-arm\FsmHost.exe
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Release\netcoreapp3.1\win-arm\FsmHost.deps.json
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Release\netcoreapp3.1\win-arm\FsmHost.runtimeconfig.json
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Release\netcoreapp3.1\win-arm\FsmHost.runtimeconfig.dev.json
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Release\netcoreapp3.1\win-arm\FsmHost.dll
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Release\netcoreapp3.1\win-arm\FsmHost.pdb
+D:\Programmierung\C#\FSMHost\FsmHost\bin\Release\netcoreapp3.1\win-arm\SimpleTCP.dll
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Release\netcoreapp3.1\win-arm\FsmHost.AssemblyInfoInputs.cache
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Release\netcoreapp3.1\win-arm\FsmHost.AssemblyInfo.cs
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Release\netcoreapp3.1\win-arm\FsmHost.csproj.CoreCompileInputs.cache
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Release\netcoreapp3.1\win-arm\FsmHost.csproj.CopyComplete
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Release\netcoreapp3.1\win-arm\FsmHost.dll
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Release\netcoreapp3.1\win-arm\FsmHost.pdb
+D:\Programmierung\C#\FSMHost\FsmHost\obj\Release\netcoreapp3.1\win-arm\FsmHost.genruntimeconfig.cache

@@ -201,8 +201,18 @@ namespace FsmHost
                 if (clients.Count != 0)
                 {
                     int index = clients.IndexOf(client);
-                    Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
-                    manager.usernames.RemoveAt(index);
+                    if (index >= 0 && index < manager.usernames.Count)
+                    {
+                        Console.WriteLine(manager.currentTimeStamp() + " User disconnected: " + manager.usernames[index]);
+                        manager.usernames.RemoveAt(index);
+                    }
+                    else
+                    {
+                        Console.WriteLine(manager.currentTimeStamp() + 
+                            " User disconnected. Could not delete username at index "+index);
+                        manager.username = "";
+                    }
+
                     clients.Remove(client);
                 }
 

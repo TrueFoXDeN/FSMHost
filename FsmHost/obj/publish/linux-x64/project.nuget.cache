@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "HXzghxF7hcGyfnxE8bXMrwK31EYT6kh+30UHAJHRuKrlVlNZCzohEC10eASCT6xhfR3kWKoCmVop93znOIpr7w==",
+  "dgSpecHash": "qnxbtAhpII2Ff9+F49415pH95rpiG6+XP+SlrlnMpAEgsjxbRfELzpFgsBtDqEmpZRd+dfNYsNvq7JBj7GIOkw==",
   "success": true,
   "projectFilePath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Laurenz\\.nuget\\packages\\simpletcp\\1.0.24\\simpletcp.1.0.24.nupkg.sha512",
-    "C:\\Users\\Laurenz\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.1.8\\microsoft.netcore.app.host.linux-x64.3.1.8.nupkg.sha512"
+    "C:\\Users\\Laurenz\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.1.9\\microsoft.netcore.app.host.linux-x64.3.1.9.nupkg.sha512"
   ],
   "logs": [
     {

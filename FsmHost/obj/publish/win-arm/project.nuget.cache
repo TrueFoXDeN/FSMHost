@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "lNrK/5UtctQxnAhYv9Lbtssbe+hrx+oa8CpX1Pp3FGndZxskbXNt/bY5bLLiuC1A6KP05dRjVqSttqLZMIQQhg==",
+  "success": true,
+  "projectFilePath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Laurenz\\.nuget\\packages\\simpletcp\\1.0.24\\simpletcp.1.0.24.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Das Paket \"SimpleTCP 1.0.24\" wurde nicht mit dem Projektzielframework \".NETCoreApp,Version=v3.1\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
+      "libraryId": "SimpleTCP",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
+}

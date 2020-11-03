@@ -488,8 +488,6 @@ namespace FsmHost
                                     }
                                 }
 
-                             
-
                                 else
                                 {
                                     if (position > c.Flightstrips.Count)

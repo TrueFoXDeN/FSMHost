@@ -35,7 +35,7 @@ namespace FsmHost
                     splittedString = splittedString.Skip(1).ToArray();
                     switch (splittedString[0])
                     {
-                        
+
 
                         case "con":
                             connectClient(splittedString, e);
@@ -63,7 +63,7 @@ namespace FsmHost
                             editFlightstripStatus(splittedString.Skip(1).ToArray());
                             break;
                         case "mov":
-                            moveFlightstrip(splittedString.Skip(1).ToArray());
+                            moveFlightstrip(splittedString.Skip(1).ToArray(), e);
                             break;
                         case "gco":
                             sendClientOverview(e);
@@ -309,7 +309,7 @@ namespace FsmHost
 
         }
 
-        private void moveFlightstrip(string[] data)
+        private void moveFlightstrip(string[] data, Message e)
         {
             try
             {
@@ -339,17 +339,25 @@ namespace FsmHost
                     }
 
                 }
-
-                columns[start].Flightstrips[fsId][1] = columns[dest].id.ToString();
-
-                if (start >= 0 && dest >= 0 && fsId >= 0)
+                if (fsId != -1 && start != -1 && dest != -1 && start < columns.Count && dest < columns.Count)
                 {
-                    string[] fs = columns[start].Flightstrips[fsId];
-                    columns[start].Flightstrips.RemoveAt(fsId);
-                    columns[dest].Flightstrips.Add(fs);
-                    Console.WriteLine(currentTimeStamp() + $" Flightstrip moved from {columns[start].name} to {columns[dest].name}");
-                    BroadcastMessage($"mov${data[0]}${data[1]}${data[2]}");
+                    columns[start].Flightstrips[fsId][1] = columns[dest].id.ToString();
+
+                    if (start >= 0 && dest >= 0 && fsId >= 0)
+                    {
+                        string[] fs = columns[start].Flightstrips[fsId];
+                        columns[start].Flightstrips.RemoveAt(fsId);
+                        columns[dest].Flightstrips.Add(fs);
+                        Console.WriteLine(currentTimeStamp() + $" Flightstrip moved from {columns[start].name} to {columns[dest].name}");
+                        BroadcastMessage($"mov${data[0]}${data[1]}${data[2]}");
+                    }
                 }
+                else
+                {
+                    e.ReplyLine("$rad");
+                    sendAllData(e);
+                }
+
             }
             catch (Exception ex)
             {
@@ -476,11 +484,11 @@ namespace FsmHost
                                 int position = Int32.Parse(data[2]);
                                 c.Flightstrips.Remove(c.Flightstrips[i]);
 
-                                if(position < indexOfFs)
+                                if (position < indexOfFs)
                                 {
-                                    if(position >= c.Flightstrips.Count)
+                                    if (position >= c.Flightstrips.Count)
                                     {
-                                        c.Flightstrips.Insert(position-1, temp);
+                                        c.Flightstrips.Insert(position - 1, temp);
                                     }
                                     else
                                     {

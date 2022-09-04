@@ -88,14 +88,12 @@ namespace FsmHost
             {
                 string username = data[1];
                 Boolean isAlreadyConnected = usernames.Contains(username);
-
                 usernames.Add(username);
                 if (isAlreadyConnected)
                 {
                     e.ReplyLine($"$kck${username}$3");
                     return;
                 }
-
 
                 int index = usernames.IndexOf(username);
                 string ip = Program.clients[index].Client.RemoteEndPoint.ToString().Split(':')[0];

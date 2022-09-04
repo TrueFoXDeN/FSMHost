@@ -19,6 +19,7 @@ namespace FsmHost
         public static int port = 13000;
         static void Main(string[] args)
         {
+            DisableConsoleQuickEdit.Go();
             manager = new Manager();
             SetupServer();
             Console.ReadLine();

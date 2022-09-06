@@ -1,0 +1,16 @@
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\bin\Release\netcoreapp3.1\linux-arm\FsmHost
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\bin\Release\netcoreapp3.1\linux-arm\FsmHost.deps.json
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\bin\Release\netcoreapp3.1\linux-arm\FsmHost.runtimeconfig.json
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\bin\Release\netcoreapp3.1\linux-arm\FsmHost.runtimeconfig.dev.json
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\bin\Release\netcoreapp3.1\linux-arm\FsmHost.dll
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\bin\Release\netcoreapp3.1\linux-arm\FsmHost.pdb
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\bin\Release\netcoreapp3.1\linux-arm\SimpleTCP.dll
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\obj\Release\netcoreapp3.1\linux-arm\FsmHost.csproj.AssemblyReference.cache
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\obj\Release\netcoreapp3.1\linux-arm\FsmHost.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\obj\Release\netcoreapp3.1\linux-arm\FsmHost.AssemblyInfoInputs.cache
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\obj\Release\netcoreapp3.1\linux-arm\FsmHost.AssemblyInfo.cs
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\obj\Release\netcoreapp3.1\linux-arm\FsmHost.csproj.CoreCompileInputs.cache
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\obj\Release\netcoreapp3.1\linux-arm\FsmHost.csproj.CopyComplete
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\obj\Release\netcoreapp3.1\linux-arm\FsmHost.dll
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\obj\Release\netcoreapp3.1\linux-arm\FsmHost.pdb
+C:\Users\Ctroi\Source\Repos\TrueFoXDeN\FSMHost\FsmHost\obj\Release\netcoreapp3.1\linux-arm\FsmHost.genruntimeconfig.cache

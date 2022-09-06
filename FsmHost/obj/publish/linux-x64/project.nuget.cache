@@ -1,18 +1,20 @@
 {
   "version": 2,
-  "dgSpecHash": "qnxbtAhpII2Ff9+F49415pH95rpiG6+XP+SlrlnMpAEgsjxbRfELzpFgsBtDqEmpZRd+dfNYsNvq7JBj7GIOkw==",
+  "dgSpecHash": "krvhSJfY8nblKCJuQnTT5FlC5xIkUgin9xGXGpWR33CWgmV2RhZInKf/pj9Wz5rEZnF0MBsltXP3/2dWU/6ySw==",
   "success": true,
-  "projectFilePath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
+  "projectFilePath": "C:\\Users\\Ctroi\\Source\\Repos\\TrueFoXDeN\\FSMHost\\FsmHost\\FsmHost.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Laurenz\\.nuget\\packages\\simpletcp\\1.0.24\\simpletcp.1.0.24.nupkg.sha512",
-    "C:\\Users\\Laurenz\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.1.9\\microsoft.netcore.app.host.linux-x64.3.1.9.nupkg.sha512"
+    "C:\\Users\\Ctroi\\.nuget\\packages\\simpletcp\\1.0.24\\simpletcp.1.0.24.nupkg.sha512",
+    "C:\\Users\\Ctroi\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\3.1.26\\microsoft.netcore.app.runtime.linux-x64.3.1.26.nupkg.sha512",
+    "C:\\Users\\Ctroi\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\3.1.26\\microsoft.aspnetcore.app.runtime.linux-x64.3.1.26.nupkg.sha512",
+    "C:\\Users\\Ctroi\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\3.1.26\\microsoft.netcore.app.host.linux-x64.3.1.26.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Das Paket \"SimpleTCP 1.0.24\" wurde nicht mit dem Projektzielframework \".NETCoreApp,Version=v3.1\", sondern mit \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" wiederhergestellt. Dieses Paket ist mit Ihrem Projekt möglicherweise nicht vollständig kompatibel.",
+      "message": "Package 'SimpleTCP 1.0.24' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
       "libraryId": "SimpleTCP",
       "targetGraphs": [
         ".NETCoreApp,Version=v3.1"

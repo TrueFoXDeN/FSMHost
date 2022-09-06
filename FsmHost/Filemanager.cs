@@ -9,7 +9,6 @@ namespace FsmHost
 {
     class Filemanager
     {
-
         public static string blacklist(string user, string ip)
         {
             if (!File.Exists("blacklist.txt"))

@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj": {}
+    "C:\\Users\\Ctroi\\Source\\Repos\\TrueFoXDeN\\FSMHost\\FsmHost\\FsmHost.csproj": {}
   },
   "projects": {
-    "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj": {
+    "C:\\Users\\Ctroi\\Source\\Repos\\TrueFoXDeN\\FSMHost\\FsmHost\\FsmHost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
+        "projectUniqueName": "C:\\Users\\Ctroi\\Source\\Repos\\TrueFoXDeN\\FSMHost\\FsmHost\\FsmHost.csproj",
         "projectName": "FsmHost",
-        "projectPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\FsmHost.csproj",
-        "packagesPath": "C:\\Users\\Laurenz\\.nuget\\packages\\",
-        "outputPath": "D:\\Programmierung\\C#\\FSMHost\\FsmHost\\obj\\publish\\osx-x64\\",
+        "projectPath": "C:\\Users\\Ctroi\\Source\\Repos\\TrueFoXDeN\\FSMHost\\FsmHost\\FsmHost.csproj",
+        "packagesPath": "C:\\Users\\Ctroi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ctroi\\Source\\Repos\\TrueFoXDeN\\FSMHost\\FsmHost\\obj\\publish\\osx-x64\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Laurenz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ctroi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,6 +30,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -37,6 +42,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "SimpleTCP": {
               "target": "Package",
@@ -56,7 +62,7 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.NETCore.App.Host.osx-x64",
-              "version": "[3.1.9, 3.1.9]"
+              "version": "[3.1.26, 3.1.26]"
             }
           ],
           "frameworkReferences": {
@@ -64,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

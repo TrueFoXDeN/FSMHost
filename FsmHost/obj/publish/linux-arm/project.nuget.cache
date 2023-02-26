@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "pYQ2hBoGphJeZzzvISLkq8da/nM3idw7MtCzY6D7OQ7CWL+tqfz0TZ9jkNnLGWfgGvAVnCWmPyyEJKofIACEHQ==",
+  "dgSpecHash": "djB57BpRnNz+1McS6RfGooq4dUMIbMFN6A7zxRghXUXVLB49JApiVQu+MrVg9bsKFlj64GMSnyqPOf/oo1rcNw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Ctroi\\Source\\Repos\\TrueFoXDeN\\FSMHost\\FsmHost\\FsmHost.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ctroi\\.nuget\\packages\\simpletcp\\1.0.24\\simpletcp.1.0.24.nupkg.sha512",
+    "C:\\Users\\Ctroi\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-arm\\3.1.26\\microsoft.netcore.app.runtime.linux-arm.3.1.26.nupkg.sha512",
+    "C:\\Users\\Ctroi\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-arm\\3.1.26\\microsoft.aspnetcore.app.runtime.linux-arm.3.1.26.nupkg.sha512",
     "C:\\Users\\Ctroi\\.nuget\\packages\\microsoft.netcore.app.host.linux-arm\\3.1.26\\microsoft.netcore.app.host.linux-arm.3.1.26.nupkg.sha512"
   ],
   "logs": [

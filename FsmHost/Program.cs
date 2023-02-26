@@ -19,8 +19,17 @@ namespace FsmHost
         public static int port = 13000;
         static void Main(string[] args)
         {
-            DisableConsoleQuickEdit.Go();
+            try
+            {
+                DisableConsoleQuickEdit.Go();
+            }
+            catch
+            {
+
+            }
+
             manager = new Manager();
+            
             SetupServer();
             Console.ReadLine();
         }
@@ -33,47 +42,57 @@ namespace FsmHost
             Console.Title = "FlightStrip Manager Server";
             Console.WriteLine("Setup Server:");
             Console.WriteLine("Standard port is set to " + port + ".");
-
-
-            while (!(changePort == 'y' || changePort == 'n'))
+            string[] arguments = Environment.GetCommandLineArgs();
+            if (arguments.Length != 0)
             {
-                Console.Write("Do you want to use a custom port? (y/n): ");
-                changePort = Console.ReadKey().KeyChar;
-
-                if (changePort == 'y')
+                try
                 {
-                    Console.WriteLine();
-                    Console.Write("Desired port: ");
-                    stringPort = Console.ReadLine();
-                    if (stringPort != "")
-                    {
-                        try
-                        {
-                            port = Int32.Parse(stringPort);
-                            Console.WriteLine("Port set to " + port);
-                        }
-                        catch (FormatException e)
-                        {
-                            Console.WriteLine("Input wasn't a number. Port set to 13000");
-                        }
-
-                    }
+                    port = Int32.Parse(arguments[1]);                    
+                    Console.WriteLine($"Port set to {port}");
                 }
-                else if (changePort == 'n')
+                catch
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Port set to " + port);
+                    Console.WriteLine("Couldn't parse port");
                 }
-                else
-                {
-                    Console.WriteLine();
-                }
-
             }
+            else
+            {
+                while (!(changePort == 'y' || changePort == 'n'))
+                {
+                    Console.Write("Do you want to use a custom port? (y/n): ");
+                    changePort = Console.ReadKey().KeyChar;
 
+                    if (changePort == 'y')
+                    {
+                        Console.WriteLine();
+                        Console.Write("Desired port: ");
+                        stringPort = Console.ReadLine();
+                        if (stringPort != "")
+                        {
+                            try
+                            {
+                                port = Int32.Parse(stringPort);
+                                Console.WriteLine("Port set to " + port);
+                            }
+                            catch (FormatException e)
+                            {
+                                Console.WriteLine("Input wasn't a number. Port set to 13000");
+                            }
+                        }
+                    }
+                    else if (changePort == 'n')
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Port set to " + port);
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                    }
 
-
-
+                }
+            }
+            
             Console.WriteLine("Setting up server...");
             try
             {
@@ -209,8 +228,8 @@ namespace FsmHost
                     }
                     else
                     {
-                        Console.WriteLine(manager.currentTimeStamp() + 
-                            " User disconnected. Could not delete username at index "+index);
+                        Console.WriteLine(manager.currentTimeStamp() +
+                            " User disconnected. Could not delete username at index " + index);
                         manager.username = "";
                     }
 
